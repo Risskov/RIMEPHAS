@@ -19,4 +19,5 @@ MONSTERBLINKSTATE3 = 13
 GRAPHSTATE = 14
 state = NORMALSTATE
 
-x = 1
+wizardOfOz = False
+numberOfActivations = 0

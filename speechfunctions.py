@@ -5,6 +5,7 @@ import speech_recognition as sr
 import re
 from pydub import AudioSegment as AS
 import numpy as np
+import globdef as gl
 
 ########## Set up speech recognition globals ##########
 LANGUAGE = "en-US" # en-US or da-DK
@@ -169,3 +170,98 @@ def speech_out(index):
         leds.change_brightness_when_speaking(sample_rate, amp_data)
     leds.dots.fill(leds.NOCOLOR)
     leds.indexLED = 5
+    
+########## Main interaction function going through interaction items to be executed ##########
+def interaction(*items):
+    global textList, show_buttons
+    if gl.wizardOfOz:
+        for item in items:
+            speech_out
+    else:    
+        skip = False
+        for item in items:
+            if item == "nudge":
+                speech_out(8+items[1])
+            elif item == "30s":
+                rand = random.randint(0,2)
+                if rand: speech_out(10)
+                else: speech_out(11)
+            elif item == "joke":
+                speech_out(11+items[1])
+                wait(2000)
+                speech_out(12+items[1])
+            elif item == "sanitizer":
+                if len(items)<=1:
+                    skip = interactionQuestion(3)
+                else: skip = interactionQuestion(0)
+            elif item == "video" and not skip:
+                interactionQuestion(1)
+            elif item == "monster":
+                global eyeDesign, state
+                speech_in(items[0], items[1])
+                if yes_detected:
+                    eyeDesign = items[0]
+                    state = NORMALSTATE
+                elif no_detected:
+                    eyeDesign = items[1]
+                    state = NORMALSTATE
+            elif item == "novideo":
+                skip = interactionQuestion(3)    
+            textList = []
+            if threadevent.is_set(): break
+    threadevent.clear()    
+    show_buttons = False
+
+########## Interaction function for two-way interaction ##########
+def interactionQuestion(question):
+    if question == 3:
+        novideo = True
+        question = 0
+    else: novideo = False
+    global show_buttons
+    skip = False
+    lastNumberOfActivations = gl.numberOfActivations
+    speech_out(question)
+    i = 0 
+    while not threadevent.is_set():   
+        speech_in("yes", "no")
+        if yes_detected:
+            pygame.event.post(happyevent)
+            speech_out(question+2)
+            if question == 0:
+                if novideo:
+                    iwait = 100
+                    while iwait:
+                        if gl.numberOfActivations != lastNumberOfActivations:
+                            speech_out(10)
+                            break
+                        #else: add speech if no activation
+                else:
+                #if not novideo:
+                    wait(2000)
+                break
+            else:
+                global state
+                state = VIDEOSTATE
+                break
+        elif no_detected:
+            speech_out(6)
+            skip = True
+            break
+        elif question == 0 and gl.numberOfActivations != lastNumberOfActivations:
+            pygame.event.post(happyevent)
+            if novideo:
+                speech_out(10)
+            else: wait(2000)
+            break
+        elif i < 1:
+            pygame.event.post(questionevent)      # dont repeat if sound level low?
+            speech_out(question+4)
+            show_buttons = True
+            i += 1
+        else:
+            speech_out(7)
+            skip = True
+            break
+    print("Interaction ended")
+    return skip

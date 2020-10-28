@@ -49,9 +49,12 @@ font_color = (0,0,0)
 max_length = 20
 
 
-def createTextSurface(surface, index, tsh, tsw):
-    text = ozText[index]
-    #text = text_list[index]
+def createTextSurface(surface, index, tsh, tsw, woz):
+    
+    if woz:
+        text = ozText[index]
+    else:
+        text = text_list[index]
     surf_list = []
     
     while(len(text) > max_length):

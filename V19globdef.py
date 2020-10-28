@@ -18,7 +18,8 @@ import subprocess
 
 pygame.init()
 
-import dispenser           #dispenser.py
+import globdef as gl
+import dispenserG as dispenser           #dispenser.py
 import stattracker         #stattracker.py
 from scrollingtext import *#scrollingtext.py
 import LEDs                #LEDs.py
@@ -26,7 +27,8 @@ import trackeduser         #trackeduser.py
 import showimages          #showimages.py
 import facetracking as ft  #facetracking.py
 from wizardOfOz import *
-import globdef
+import speechfunctions as sf #speechfunctions.py
+
 import RPi.GPIO as GPIO
 import os
 import time
@@ -34,8 +36,8 @@ import time
 
 
 ##########  Settings  ##########
-wizardOfOz = False
-largeScreen = False
+#wizardOfOz = False
+largeScreen = True
 size = (800,480)
 largeSize = (800,1280)
 if largeScreen:
@@ -132,7 +134,6 @@ Okay_video_da = "sounds/Okay_video_da.mp3"
 thirtysecda = "sounds/30sec_da.mp3"
 caring = "sounds/thanks_for_caring.mp3"
 often = "sounds/sanitize_often.mp3"
-
 # List of English voice lines
 sounds_EN = [Hi_sanitizer, Video, Great_dispenser, Okay_video, Sorry_sanitizer, Sorry_video,  Nice_day, Sorry_bye,
           often, nudge1, thirtysec, caring, joke1_1, joke1_2, joke2_1, joke2_2, joke3_1, joke3_2]
@@ -161,7 +162,7 @@ def wait(ms):
 def blitImages(left, right):
     screen.blit(left, (0,0))
     screen.blit(right, (400,0))
-    
+"""    
 ########## Functions for Snowboy keyword detection - used when not connected to internet ##########
 def signal():
     global interrupted
@@ -262,29 +263,26 @@ def speech_out(index):
         sounds = sounds_DA
     else:
         sounds = sounds_EN
+    if largeScreen:
+        global textList
+        textList = createTextSurface(finalSurface, index, top_screen_height, top_screen_width)
     pygame.mixer.init()
     pygame.mixer.music.load(sounds[index])
-    """
     sound = AS.from_mp3(sounds[index])
     raw_data = sound.raw_data
     sample_rate = sound.frame_rate * 2.3
     amp_data = np.frombuffer(raw_data, dtype=np.int16)
     amp_data = np.absolute(amp_data)
-    """
     pygame.mixer.music.play()
-    if largeScreen:
-        global textList
-        textList = createTextSurface(finalSurface, index, top_screen_height, top_screen_width, wizardOfOz)
+
     while pygame.mixer.music.get_busy():
-        pass
-        #if threadevent.is_set():
-        #pygame.mixer.quit()
-        #break
-    """
+        if threadevent.is_set():
+            pygame.mixer.quit()
+            break
         leds.change_brightness_when_speaking(sample_rate, amp_data)
     leds.dots.fill(leds.NOCOLOR)
     leds.indexLED = 5
-    """
+
 ########## Main interaction function going through interaction items to be executed ##########
 def interaction(*items):
     global textList, show_buttons
@@ -344,17 +342,14 @@ def interactionQuestion(question):
             speech_out(question+2)
             if question == 0:
                 if novideo:
-                    iwait = 200
+                    iwait = 100
                     while iwait:
                         if disp.numberOfActivations != lastNumberOfActivations:
                             speech_out(10)
                             break
-                        iwait -= 1
-                        if iwait < 1:
-                            break
                         #else: add speech if no activation
                 else:
-                    print("video")
+                #if not novideo:
                     wait(2000)
                 break
             else:
@@ -371,18 +366,18 @@ def interactionQuestion(question):
                 speech_out(10)
             else: wait(2000)
             break
-        #elif i < 1:
-        #    pygame.event.post(questionevent)      # dont repeat if sound level low?
-        #    speech_out(question+4)
-        #    show_buttons = True
-        #    i += 1
+        elif i < 1:
+            pygame.event.post(questionevent)      # dont repeat if sound level low?
+            speech_out(question+4)
+            show_buttons = True
+            i += 1
         else:
             speech_out(7)
             skip = True
             break
     print("Interaction ended")
     return skip
-
+"""
 def playVideo():
     """
     print(pygame.display.get_wm_info())
@@ -407,6 +402,7 @@ def playVideo():
     clip = VideoFileClip(f'videos/{eyeDesign}video.mp4')#, target_resolution=(480,800))
     clip = clip.volumex(0.05)
     clip.preview(fullscreen = True)
+    
     
 res0 = (320,320)
 res1 = (320,240)
@@ -448,7 +444,7 @@ def calculateAngles(x, y, w, h):
     a = math.sqrt(b*b + c*c - 2*b*c*math.cos(angleA))
     angleC = math.acos((a*a + b*b - c*c)/(2*a*b))
     pupilV = int((angleC - math.pi/2) * EYE_DEPTH * ppcm)
-    
+
 # Draw the pupils on the eyes
 def drawPupils():
     pupilposL = (centerL[0]+pupilL, centerL[1]-pupilV)
@@ -523,7 +519,7 @@ textList = []
 if __name__ == '__main__':
     
     # Initialize interprocess communication
-    if not wizardOfOz:
+    if not gl.wizardOfOz:
         receiver, sender = mp.Pipe(True)
         mp.set_start_method('spawn',force=True)
         tracking_proc = mp.Process(target=ft.faceTracking, args=(sender,))
@@ -551,7 +547,7 @@ if __name__ == '__main__':
     monsterblinks = [monsterblinkL, monsterblinkM, monsterblinkR]
     
     # Initialize interaction variables
-    flow = threading.Thread(target=interaction)
+    flow = threading.Thread(target=sf.interaction)
     threadevent = threading.Event() #Used to terminate interaction thread
     trackID = 0 #ID of closest person
     altTrackID = 0 #ID of other random person
@@ -625,7 +621,7 @@ if __name__ == '__main__':
                     turnOffDispenser = not turnOffDispenser
                     print(turnOffDispenser)
                 elif event.key == pygame.K_a:
-                    disp.numberOfActivations += 1
+                    gl.numberOfActivations += 1
                     print("Activation!")
                 elif event.key == pygame.K_f:
                     if frequency == 1: frequency = 10
@@ -637,19 +633,19 @@ if __name__ == '__main__':
                     print("Number of people: ", peopleAmount)
                 elif event.key == pygame.K_v:
                     state = VIDEOSTATE
-                elif wizardOfOz:
-                    if event.key == pygame.K_w:
+                elif gl.wizardOfOz:
+                    if event.key == pygame.K_9:
                         textList = []
                     else:
                         ozSpeech, textIndex = OzKeydownEvents(event, interactionItems, threadevent, flow, logfile)
                         if ozSpeech is not None and not flow.is_alive():
-                            textList = createTextSurface(finalSurface, textIndex, top_screen_height, top_screen_width, wizardOfOz)
+                            textList = createTextSurface(finalSurface, textIndex, top_screen_height, top_screen_width)
                             pygame.mixer.init()
                             pygame.mixer.music.load(ozSpeech)
                             pygame.mixer.music.play()
             
             elif event.type == pygame.KEYUP:
-                if wizardOfOz:
+                if gl.wizardOfOz:
                     OzKeyupEvents(event)
             # Touchscreen events
             elif event.type == pygame.FINGERDOWN:
@@ -747,7 +743,7 @@ if __name__ == '__main__':
                     trackeduser.updateAll(bubbles)
                 
         ########## Interaction ##########
-        
+                 
         #st.trailing_five_min_activations(disp.numberOfActivations)
         frequency = st.trailingFiveMinSum
         #could use pygame.timers to create variable length trailing activations - call function every event
@@ -756,12 +752,12 @@ if __name__ == '__main__':
         waitTimer = 0
         
         # If in Wizard of Oz test mode
-        if wizardOfOz:
+        if gl.wizardOfOz:
             pupilL, pupilR, pupilV = OzMovePupils(pupilL, pupilR, pupilV)
-            if disp.numberOfActivations != lastNumberOfActivations:
+            if gl.numberOfActivations != lastNumberOfActivations:
                 timestamp = dt.datetime.now()
-                logfile.write(f"{timestamp}: Activation! Number of activations: {disp.numberOfActivations}\n")
-                lastNumberOfActivations = disp.numberOfActivations
+                logfile.write(f"{timestamp}: Activation! Number of activations: {gl.numberOfActivations}\n")
+                lastNumberOfActivations = gl.numberOfActivations
                 pygame.event.post(happyevent)
                 
                 frame, x, y, h, w = sh.take()
@@ -770,7 +766,7 @@ if __name__ == '__main__':
                 pygame.time.set_timer(PHOTOEVENT, int(1000/BubbleUpdate))
         elif receiver.poll():
             trackedList, peopleCount, frame = receiver.recv()
-            trackedList = {k:v for (k,v) in trackedList.items() if v[4]>10}
+            trackedList = {k:v for (k,v) in trackedList.items() if v[4]>35}
             if runInteraction:
                 keys = trackedList.keys() # IDs of currently tracked people
                 recurrents = set(keys) & set(prevKeys) # IDs of people present during last interaction and now
@@ -797,20 +793,20 @@ if __name__ == '__main__':
                                     interactionItems.append("video")
                                     videoKeys = keys
                             prevKeys = keys
-                        numberOfActivationsInteraction = disp.numberOfActivations
+                        numberOfActivationsInteraction = gl.numberOfActivations
                         prevInteraction = 3
                         #waitTimer = 30000
                 if flow.is_alive() and not recurrents: #trackedList:
                     threadevent.set()
                 # track and decay rates important above
-                if not interactionItems and not flow.is_alive() and lastNumberOfActivations != disp.numberOfActivations:
+                if not interactionItems and not flow.is_alive() and lastNumberOfActivations != gl.numberOfActivations:
                     pygame.event.post(happyevent)
                     interactionItems.append("30s")
                     prevKeys = keys
 
                 if interactionItems:
                         print("Arguments: ", interactionItems)       
-                        flow = threading.Thread(target=interaction, args=interactionItems)
+                        flow = threading.Thread(target=sf.interaction, args=interactionItems)
                         flow.start()
                         interactionItems = []
             if waitTimer > 0:
@@ -819,7 +815,7 @@ if __name__ == '__main__':
             
             # Gaze calculation and control
             if trackedList:
-                if largeScreen and lastNumberOfActivations != disp.numberOfActivations:
+                if largeScreen and lastNumberOfActivations != gl.numberOfActivations:
                     userID = max(trackedList.items(), key = lambda i : i[1][2])[0]
                     (x, y, w, h, n, u, c) = trackedList.get(userID)
                     frame = frame[y:(y+h), x-30:(x+w+30)]
@@ -851,8 +847,8 @@ if __name__ == '__main__':
                     numberOfPeople += newPeople
                     oldNumberOfPeople = peopleCount
                     
-            lastNumberOfActivations = disp.numberOfActivations
-        st.update_plot(disp.numberOfActivations, numberOfPeople)
+            lastNumberOfActivations = gl.numberOfActivations
+        st.update_plot(gl.numberOfActivations, numberOfPeople)
         disp.update()
         ########## State Machine ##########
         screen.fill(BACKGROUND)
@@ -892,7 +888,7 @@ if __name__ == '__main__':
             if not flow.is_alive():
                 flow = threading.Thread(target=interaction, args=("monster", "normal"))
                 flow.start()
-            text_surface, _ = myfont.render(f"Activations: {disp.numberOfActivations}", (0,0,0))
+            text_surface, _ = myfont.render(f"Activations: {gl.numberOfActivations}", (0,0,0))
             screen.blit(text_surface, (5,5))
         elif state == COLORSTATE:
             screen.blit(colorselector, (50, 50))
@@ -940,7 +936,7 @@ if __name__ == '__main__':
     
     interrupted = True
     threadevent.set()
-    if not wizardOfOz:
+    if not gl.wizardOfOz:
         receiver.send(True)
         while receiver.poll():  
             (trackedList, peopleCount, frame) = receiver.recv()
@@ -953,4 +949,5 @@ if __name__ == '__main__':
     GPIO.cleanup()
     print("Cleaned up")
     exit(0)
+
 

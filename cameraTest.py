@@ -131,13 +131,14 @@ def main():
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, res[0])
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, res[1])
     frameCounter = 0
-    currentID = 0   
+    currentID = 0
     faceTrackers = {}
     #print(cap.get(cv2.CAP_PROP_FPS))
     #start = time.time()
     while True:
         ret, frame = cap.read()
         frame = cv2.rotate(frame, cv2.ROTATE_180)
+        #frame = frame[0:320, 0:320]
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         #gray = cv2.rotate(gray, cv2.ROTATE_180)
         
