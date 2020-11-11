@@ -30,9 +30,23 @@ text_list = ["Hi, would you like some hand sanitizer?",
         "Okay, have a nice day!",
         "Sorry, I do not understand. Have a nice day!",
         "It's important to sanitize your hands often",
-        "Hey, have you remembered to you hand sanitizer lately?",
+        "Hey, have you remembered to use hand sanitizer lately?",
         "Remember to rub your hands for 30 seconds",
         "Thanks for caring!"]
+
+text_list_da = ["Hej, kunne du tænke dig noget håndsprit?",
+                "Vil du se en video om hvordan man gør?",
+                "Så bare put din hånd under automaten",
+                "Okay, her er videoen",
+                " ",
+                " ",
+                "Okay, hav en god dag!",
+                " ",
+                " ",
+                " ",
+                "Husk at gnide dine hænder i mindst 30 sekunder",
+                "Husk at gnide hænderne i 30 sekunder. Du kan følge nedtællingen på skærmen",
+                " "]
 
 ozText = ["Hey, there!", "Hello!", "Howdy!", "Hey, do you have a minute?", "Would you like some hand sanitizer?",
           "Did you sanitize your hands recently?", "Do you want to clean your hands?", "Great, just put your hand under the dispenser, please!",
@@ -49,10 +63,12 @@ font_color = (0,0,0)
 max_length = 20
 
 
-def createTextSurface(surface, index, tsh, tsw, woz):
+def createTextSurface(surface, index, tsh, tsw, woz, lang):
     
     if woz:
         text = ozText[index]
+    elif lang == "da-DK":
+        text = text_list_da[index]
     else:
         text = text_list[index]
     surf_list = []
@@ -66,23 +82,6 @@ def createTextSurface(surface, index, tsh, tsw, woz):
     
     new_surf, _ = font.render(text, font_color)
     surf_list.append(new_surf)
-    """
-    
-    if len(text) > max_length:
-        split_index = text.find(" ", max_length)
-        first_line = text[:split_index]
-        second_line = text[split_index:]
-        if len(second_line)
-        first_surf, _ = font.render(first_line, (0,0,0))
-        second_surf, _ = font.render(second_line, (0,0,0))
-        surf_list.append(first_surf)
-        surf_list.append(second_surf)
-        #surface.blit(first_surf, ((tsw-first_surf.get_width())/2,tsh+200))
-        #surface.blit(second_surf, ((tsw-second_surf.get_width())/2,tsh+300))
-    else:
-        text_surf, _ = font.render(text, (0,0,0))
-        surf_list.append(text_surf)
-        #surface.blit(text_surf, ((tsw-text_surf.get_width())/2,tsh+200))
-    """
+
     return surf_list
 

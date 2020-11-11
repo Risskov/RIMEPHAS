@@ -289,7 +289,7 @@ def speech_out(index):
     """
 ########## Main interaction function going through interaction items to be executed ##########
 def interaction(*items):
-    global textList, show_buttons, state, interactionWait
+    global textList, show_buttons
     if wizardOfOz:
         for item in items:
             speech_out
@@ -326,9 +326,7 @@ def interaction(*items):
             textList = []
             if threadevent.is_set(): break
     threadevent.clear()
-    if interactionWait: state = BLINKSTATE2
-    #show_buttons = False
-
+    
 ########## Interaction function for two-way interaction ##########
 def interactionQuestion(question):
     if question == 3:
@@ -350,12 +348,11 @@ def interactionQuestion(question):
                     iwait = 200
                     while iwait:
                         if disp.numberOfActivations != lastNumberOfActivations:
-                            speech_out(10)
+                            speech_out(11)
                             break
                         iwait -= 1
                         if iwait < 1:
                             break
-                        #else: add speech if no activation
                 else:
                     print("video")
                     wait(2000)
@@ -370,7 +367,7 @@ def interactionQuestion(question):
             skip = True
             break
         elif question == 0 and disp.numberOfActivations != lastNumberOfActivations:
-            #pygame.event.post(happyevent)
+            pygame.event.post(happyevent)
             if novideo:
                 speech_out(11)
             else: wait(2000)
@@ -487,7 +484,6 @@ no_detected = False
 timeout = 0.
 
 show_buttons = False
-interactionWait = False #Indicate if waiting between interactions
 
 offset = 800-170-100
 eyeL = pygame.Rect(100, 210, 170, 170)
@@ -507,6 +503,7 @@ INTERACTIONEVENT = pygame.USEREVENT + 6
 GAZEEVENT = pygame.USEREVENT + 7
 MONSTERBLINKEVENT = pygame.USEREVENT + 8
 PHOTOEVENT = pygame.USEREVENT + 9
+PIREVENT = pygame.USEREVENT + 10
 happyevent = pygame.event.Event(HAPPYSTARTEVENT)
 questionevent = pygame.event.Event(QUESTIONEVENT)
 
@@ -542,10 +539,6 @@ if __name__ == '__main__':
         timestamp = dt.datetime.now()
         logfile.write(f"{timestamp}: Device started\n")
         sh = ft.Snapshot()
-        
-    logfile = open("testing/abenalog.txt","a+")
-    timestamp = dt.datetime.now()
-    logfile.write(f"{timestamp}: Device started\n")
     
     if not largeScreen:
         subprocess.run(["xinput", "map-to-output", "8", "DSI-1"])
@@ -573,13 +566,14 @@ if __name__ == '__main__':
     videoKeys = [] #IDs of people present at last video showing
     prevKeys = [] #IDs of people present last iteration
     prevInteraction = 0 #What interaction scenario was last run
-    #interactionWait = False #Indicate if waiting between interactions
+    interactionWait = False #Indicate if waiting between interactions
     interactionIndex = 0 #What interaction was last run if repeat interaction scenario
     lastNumberOfActivations = 0 #Activation counter last iteration
     peopleAmount = 1 #len(trackedList)
     frequency = 1    #from trailing_five
     interactionItems = [] #Interaction stages
     runInteraction = False #Turn on/off interactions (r button)
+    newInteraction = False
     
     # Initialize stats variables
     st = stattracker.StatTracker()
@@ -745,9 +739,11 @@ if __name__ == '__main__':
                     pygame.time.set_timer(NORMALEVENT, 3000, True)
                     state = CONFUSEDSTATE
             if event.type == INTERACTIONEVENT:
+                #newInteraction = False
                 interactionWait = False
-                if state == BLINKSTATE2: state = NORMALSTATE
                 print("Interaction timer reset")
+            elif event.type == PIREVENT:
+                newInteraction = False
             elif event.type == GAZEEVENT:
                 gazeAtClosest = not gazeAtClosest
                 altTrackID = 0
@@ -768,12 +764,7 @@ if __name__ == '__main__':
         manyPeople = 3 # Number indicating many people being tracked
         frequentUse = 20 # Number indicating frequent use of dispenser
         waitTimer = 0
-        
-        if disp.numberOfActivations != lastNumberOfActivations:
-            timestamp = dt.datetime.now()
-            logfile.write(f"{timestamp}: Activation! Number of activations: {disp.numberOfActivations}\n")
-            #lastNumberOfActivations = disp.numberOfActivations
-        
+        #disp.readPIR()
         # If in Wizard of Oz test mode
         if wizardOfOz:
             pupilL, pupilR, pupilV = OzMovePupils(pupilL, pupilR, pupilV)
@@ -787,11 +778,41 @@ if __name__ == '__main__':
                 frame = frame[y:(y+h), x-30:(x+w+30)]
                 bubbles.append(trackeduser.TrackedUser(finalSurface, frame, int(100), int(top_screen_height+60), BubbleUpdate)) # Adds face to bubbles list
                 pygame.time.set_timer(PHOTOEVENT, int(1000/BubbleUpdate))
+        elif runInteraction and not interactionWait and disp.readPIR() and not flow.is_alive():
+            """
+            rand = random.randint(0,1)
+            #rand = 1
+            if rand:
                 
-        elif receiver.poll():
+                interactionItems.append("video")    
+            else:
+                interactionItems.append("novideo")
+            #print("Arguments: ", interactionItems)       
+            #flow = threading.Thread(target=interaction, args=interactionItems)
+            #flow.start()
+            #interactionItems = []
+            """
+            interactionItems.append("sanitizer")
+            interactionItems.append("video")
+            newInteraction = True
+            pygame.time.set_timer(PIREVENT, 3000, True)
+        
+        if receiver.poll():
             trackedList, peopleCount, frame = receiver.recv()
-            trackedList = {k:v for (k,v) in trackedList.items() if v[4]>5}
+            trackedList = {k:v for (k,v) in trackedList.items() if v[4]>10}
             
+            keys = trackedList.keys() # IDs of currently tracked people
+            recurrents = set(keys) & set(prevKeys) # IDs of people present during last interaction and now
+            numberOfNewPeople = len(keys - recurrents)
+            
+            if newInteraction and trackedList and numberOfNewPeople >= 1:      
+                newInteraction = False
+                prevKeys = keys
+                if recurrents:
+                    interactionItems = ["novideo"]
+            elif newInteraction and trackedList:
+                interactionItems = [] 
+            """
             if runInteraction:
                 keys = trackedList.keys() # IDs of currently tracked people
                 recurrents = set(keys) & set(prevKeys) # IDs of people present during last interaction and now
@@ -824,8 +845,8 @@ if __name__ == '__main__':
                                 else:
                                     interactionItems.append("countdown")
                             prevKeys = keys
-                            waitTimer = 15000
-                            #receiver.send((False, False))
+                            waitTimer = 10000
+                            receiver.send((False, False))
                         #else:
                         #    interactionItems.append("educational")
                         numberOfActivationsInteraction = disp.numberOfActivations
@@ -836,7 +857,7 @@ if __name__ == '__main__':
                 #    pass
                 # track and decay rates important above
                 if not interactionItems and not flow.is_alive() and lastNumberOfActivations != disp.numberOfActivations:
-                    #pygame.event.post(happyevent)
+                    pygame.event.post(happyevent)
                     interactionItems.append("30s")
                     prevKeys = keys
 
@@ -845,24 +866,27 @@ if __name__ == '__main__':
                         flow = threading.Thread(target=interaction, args=interactionItems)
                         flow.start()
                         interactionItems = []
-                        #receiver.send((False, False))
-                #elif not flow.is_alive():
-                #    receiver.send((False, True))
+                        receiver.send((False, False))
+                elif not flow.is_alive():
+                    receiver.send((False, True))
             if waitTimer > 0:
                 interactionWait = True
                 pygame.time.set_timer(INTERACTIONEVENT, waitTimer, True)
-            
+            """
+            #gentaget i udkommenteret
+            if not interactionItems and not flow.is_alive() and lastNumberOfActivations != disp.numberOfActivations:
+                    pygame.event.post(happyevent)
+                    interactionItems.append("30s")
+                    prevKeys = keys
             # Gaze calculation and control
             if trackedList:
                 if largeScreen and lastNumberOfActivations != disp.numberOfActivations:
-                    pygame.event.post(happyevent)
                     userID = max(trackedList.items(), key = lambda i : i[1][2])[0]
                     (x, y, w, h, n, u, c) = trackedList.get(userID)
                     frame = frame[y:(y+h), x-30:(x+w+30)]
                     bubbles.append(trackeduser.TrackedUser(finalSurface, frame, int(100), int(top_screen_height+60), BubbleUpdate)) # Adds face to bubbles list
                     pygame.time.set_timer(PHOTOEVENT, int(1000/BubbleUpdate))
                     #lastNumberOfActivations = disp.numberOfActivations
-                    #BOTTOMBACKGROUND = (255,0,0)
                 if gazeAtClosest:
                     if altTrackID == 0: # Determine ID of closest person
                         trackID = max(trackedList.items(), key = lambda i : i[1][2])[0]
@@ -889,7 +913,18 @@ if __name__ == '__main__':
                     numberOfPeople += newPeople
                     oldNumberOfPeople = peopleCount
                     
-        lastNumberOfActivations = disp.numberOfActivations
+            lastNumberOfActivations = disp.numberOfActivations
+            
+        if interactionItems:
+            print("Arguments: ", interactionItems)       
+            flow = threading.Thread(target=interaction, args=interactionItems)
+            flow.start()
+            interactionItems = []
+            waitTimer = 15000
+        if waitTimer > 0:
+                interactionWait = True
+                pygame.time.set_timer(INTERACTIONEVENT, waitTimer, True)
+
         st.update_plot(disp.numberOfActivations, numberOfPeople)
         disp.update()
         ########## State Machine ##########
@@ -975,22 +1010,21 @@ if __name__ == '__main__':
 
         else: finalSurface.blit(screen, (0,0))
         pygame.display.flip()
-        
-        #disp.readPIR()
-    logfile.close()
+    
     interrupted = True
     threadevent.set()
     if not wizardOfOz:
-        receiver.send(True)
+        receiver.send((True, False))
         while receiver.poll():  
             (trackedList, peopleCount, frame) = receiver.recv()
         tracking_proc.terminate()
         tracking_proc.join()
-    #else:
-        #logfile.close()
+    else:
+        logfile.close()
     pygame.display.quit()
     pygame.quit()
     GPIO.cleanup()
     print("Cleaned up")
     exit(0)
+
 

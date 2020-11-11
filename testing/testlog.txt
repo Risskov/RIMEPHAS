@@ -2,3 +2,41 @@
 2020-10-27 16:02:30.748291 | Greeting: Hey, there! 
 2020-10-27 16:02:34.774830 | Parting: Have a nice day and remember to keep your hands clean! 
 2020-10-27 16:04:40.218514: Device started
+2020-10-30 11:10:34.643808: Device started
+2020-10-30 13:51:41.202440: Device started
+2020-10-30 13:51:52.081110 | Greeting: Hey, do you have a minute? 
+2020-10-30 13:51:57.407309 | Parting: Have a nice day! 
+2020-10-30 13:52:05.390254 | Offer: Do you want to clean your hands? 
+2020-10-30 13:52:12.150110 | Greeting: Howdy! 
+2020-10-30 13:52:12.842268 | Greeting: Hello! 
+2020-10-30 13:52:13.108593 | Greeting: Hello! 
+2020-10-30 13:52:13.442286 | Greeting: Hello! 
+2020-10-30 13:52:19.918097 | Greeting: Hello! 
+2020-10-30 13:52:23.282093 | Offer: Did you sanitize your hands recently? 
+2020-10-30 13:52:31.934190 | Greeting: Hey, do you have a minute? 
+2020-10-30 13:52:47.221818 | Offer: Do you want to clean your hands? 
+2020-10-30 13:53:12.531348 | Greeting: Hey, do you have a minute? 
+2020-10-30 13:53:14.559838 | Offer: Do you want to clean your hands? 
+2020-10-30 13:53:25.538333 | Parting: Have a nice day! 
+2020-10-30 13:53:52.533846 | Greeting: Hello! 
+2020-10-30 13:53:53.815592 | Offer: Do you want to clean your hands? 
+2020-10-30 13:54:43.131142 | Greeting: Howdy! 
+2020-10-30 13:54:44.122420 | Offer: Do you want to clean your hands? 
+2020-10-30 13:54:50.287975 | Rub: Remember to rub your hands for at least 30 seconds 
+2020-10-30 13:54:55.878006 | Edu: Did you know that frequent hand sanitization can reduce the spread of the epidemic? 
+2020-10-30 13:55:28.278512 | Greeting: Hello! 
+2020-10-30 13:58:42.320592 | Greeting: Hey, there! 
+2020-10-30 13:58:44.153338 | Offer: Did you sanitize your hands recently? 
+2020-10-30 14:00:10.884778 | Offer: Do you want to clean your hands? 
+2020-10-30 14:25:43.976723: Device started
+2020-10-30 14:44:28.707498: Device started
+2020-10-30 14:44:34.818028 | Greeting: Howdy! 
+2020-10-30 14:44:39.068257 | Offer: Did you sanitize your hands recently? 
+2020-10-30 14:44:54.778642: Device started
+2020-10-30 14:45:02.661635: Activation! Number of activations: 1
+2020-10-30 15:58:02.056108: Device started
+2020-11-06 14:02:33.888104: Device started
+2020-11-06 14:04:18.150347: Device started
+2020-11-06 14:07:02.707036: Device started
+2020-11-11 09:54:36.212693: Device started
+2020-11-11 09:59:41.273134: Device started

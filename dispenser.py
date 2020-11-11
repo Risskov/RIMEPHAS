@@ -5,7 +5,8 @@ import RPi.GPIO as GPIO
 # Pins
 PIN_MOTORDETECT = 24
 PIN_IRSENOR = 20
-PIN_LED = 25
+#PIN_LED = 25
+PIN_PIR = 25
 
 # SPI Pins
 PIN_CLK = 11
@@ -26,8 +27,8 @@ class Dispenser:
     def init_GPIO(self):
         # Init GPIO pins
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(PIN_LED, GPIO.OUT)
-        GPIO.output(PIN_LED, False)
+        #GPIO.setup(PIN_LED, GPIO.OUT)
+        #GPIO.output(PIN_LED, False)
         GPIO.setup(PIN_MOTORDETECT, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         
         # Spi pins Init
@@ -35,6 +36,16 @@ class Dispenser:
         GPIO.setup(PIN_MISO, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(PIN_MOSI, GPIO.OUT)
         GPIO.setup(PIN_CS, GPIO.OUT)
+        
+        GPIO.setup(PIN_PIR, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    
+    def readPIR(self):
+        if GPIO.input(PIN_PIR):
+            print("PIR activated")
+            return True
+        else:
+            #print("NONE")
+            return False
 
     # Read SPI data from ADC  
     def recvBits(self, numBits, clkPin, misoPin):
@@ -87,9 +98,10 @@ class Dispenser:
                 self.dispenserEmpty = False
                 self.dispenserRefilled = False
                 self.turnOffDispenser = False
-             
+        """     
         # Test MOSFET
         if(self.turnOffDispenser == False):
             GPIO.output(PIN_LED, True)
         else:
             GPIO.output(PIN_LED, False)
+        """

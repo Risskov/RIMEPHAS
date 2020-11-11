@@ -1,10 +1,14 @@
 import cv2
 from edgetpu.detection.engine import DetectionEngine
 from PIL import Image
+import time
+import math
 
 engine = DetectionEngine("ssd_mobilenet_v2_face_quant_postprocess_edgetpu.tflite")
 #engine = DetectionEngine("face-detector-quantized_edgetpu.tflite")
 cap = cv2.VideoCapture(-1)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 960)
 cv2.namedWindow('image', cv2.WINDOW_AUTOSIZE)
 """
 cv2.namedWindow('imageL', cv2.WINDOW_AUTOSIZE)
@@ -14,7 +18,7 @@ cv2.namedWindow('imageBR', cv2.WINDOW_AUTOSIZE)
 """
 term = False
 
-def frameCutout(frame, vOff, hOff):
+def frameCutout(frame, vOff, hOff, first, faceAtBoundary=False):
     frameRGB = frame[vOff:320+vOff, hOff:320+hOff]
     framePIL = Image.fromarray(frameRGB)
     faces = engine.detect_with_image(framePIL,
@@ -28,30 +32,52 @@ def frameCutout(frame, vOff, hOff):
         #print(x, x2)
         w = x2-x
         h = y2-y
+        
+        if first and x2 > 320-3-5:
+            faceAtBoundary = True
+            w = h
+        elif not first and faceAtBoundary and x < 2:
+            print("skipping")
+            continue
+        
         x = x+hOff
         y = y+vOff
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
-        print(h/w)
+        #print(h/w)
         
-    return frame
+    return frame, faceAtBoundary
+
+start = time.time()
+fps = 0
+old = 0.
 
 while not term:
     _, frame = cap.read()
     frame = cv2.rotate(frame, cv2.ROTATE_180)
     frameRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     
-    frameRGB = frameCutout(frameRGB, 0, 0)
-    frameRGB = frameCutout(frameRGB, 0, 320)
-    frameRGB = frameCutout(frameRGB, 160, 0)
-    frameRGB = frameCutout(frameRGB, 160, 320)
+    faceAtBoundary = False
+    frameRGB, faceAtBoundary = frameCutout(frameRGB, 400, 400, True)
+    frameRGB, _ = frameCutout(frameRGB, 400, 720, False, faceAtBoundary)
+    #frameRGB = frameCutout(frameRGB, 160, 0)
+    #frameRGB = frameCutout(frameRGB, 160, 320)
     
-    cv2.imshow("image", frameRGB)
+    cv2.rectangle(frameRGB, (720, 400), (1040, 720), (0, 0, 255), 2)
+    cv2.rectangle(frameRGB, (400, 400), (720, 720), (0, 0, 255), 2)
+    cv2.imshow("image", cv2.resize(frameRGB,(640,480)))
     """
     cv2.imshow("imageL", frameL)
     cv2.imshow("imageR", frameR)
     cv2.imshow("imageBL", frameBL)
     cv2.imshow("imageBR", frameBR)
     """
+    fps += 1
+    now = time.time()
+    tid = math.trunc(now-start)
+    if tid != old:
+        print(fps)
+        fps = 0
+    old = tid
     if cv2.waitKey(1) == ord('q'):
         break
 cap.release()    

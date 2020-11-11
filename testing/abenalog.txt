@@ -1,0 +1,172 @@
+2020-11-06 10:55:44.369602: Device started
+2020-11-06 10:55:54.921382: Activation! Number of activations: 1
+2020-11-06 10:56:35.824272: Device started
+2020-11-06 11:02:52.916619: Activation! Number of activations: 1
+2020-11-06 11:04:30.943897: Activation! Number of activations: 2
+2020-11-06 11:13:16.212681: Activation! Number of activations: 3
+2020-11-06 11:23:47.097262: Activation! Number of activations: 4
+2020-11-06 11:26:18.836413: Activation! Number of activations: 5
+2020-11-06 11:28:28.119314: Activation! Number of activations: 6
+2020-11-06 11:49:06.882822: Activation! Number of activations: 7
+2020-11-06 11:59:05.660151: Activation! Number of activations: 8
+2020-11-06 11:59:15.489932: Activation! Number of activations: 9
+2020-11-06 11:59:20.558928: Activation! Number of activations: 10
+2020-11-06 11:59:43.142238: Activation! Number of activations: 11
+2020-11-06 11:59:46.922504: Activation! Number of activations: 12
+2020-11-06 12:00:35.812776: Activation! Number of activations: 13
+2020-11-06 12:01:46.107215: Activation! Number of activations: 14
+2020-11-06 12:06:07.858468: Activation! Number of activations: 15
+2020-11-06 12:06:15.689809: Activation! Number of activations: 16
+2020-11-06 12:06:20.965774: Activation! Number of activations: 17
+2020-11-06 12:06:32.399779: Activation! Number of activations: 18
+2020-11-06 12:06:42.916790: Activation! Number of activations: 19
+2020-11-06 12:07:20.318858: Activation! Number of activations: 20
+2020-11-06 12:15:19.645594: Activation! Number of activations: 21
+2020-11-06 12:26:54.405858: Activation! Number of activations: 22
+2020-11-06 12:28:11.707764: Activation! Number of activations: 23
+2020-11-06 12:28:21.582100: Activation! Number of activations: 24
+2020-11-06 12:28:25.861011: Activation! Number of activations: 25
+2020-11-06 12:28:43.760939: Activation! Number of activations: 26
+2020-11-06 12:33:37.292964: Activation! Number of activations: 27
+2020-11-06 12:33:44.708683: Activation! Number of activations: 28
+2020-11-06 12:35:40.106495: Activation! Number of activations: 29
+2020-11-06 12:38:52.157540: Activation! Number of activations: 30
+2020-11-06 12:39:04.072220: Activation! Number of activations: 31
+2020-11-06 12:54:17.236506: Activation! Number of activations: 32
+2020-11-06 12:54:24.045350: Activation! Number of activations: 33
+2020-11-06 12:56:52.205100: Activation! Number of activations: 34
+2020-11-06 12:57:51.604154: Activation! Number of activations: 35
+2020-11-06 12:57:57.032221: Activation! Number of activations: 36
+2020-11-06 13:00:46.330272: Activation! Number of activations: 37
+2020-11-06 13:00:57.355036: Activation! Number of activations: 38
+2020-11-06 13:02:52.889202: Activation! Number of activations: 39
+2020-11-06 13:10:10.877718: Activation! Number of activations: 40
+2020-11-06 13:20:13.009084: Activation! Number of activations: 41
+2020-11-06 13:29:21.310239: Activation! Number of activations: 42
+2020-11-06 13:30:28.205274: Activation! Number of activations: 43
+2020-11-06 13:32:07.832037: Activation! Number of activations: 44
+2020-11-06 13:33:02.156098: Activation! Number of activations: 45
+2020-11-06 13:35:00.594951: Activation! Number of activations: 46
+2020-11-06 13:36:07.830030: Activation! Number of activations: 47
+2020-11-06 13:38:21.109039: Activation! Number of activations: 48
+2020-11-06 13:43:18.199538: Activation! Number of activations: 49
+2020-11-06 14:04:21.049684: Device started
+2020-11-06 14:04:27.050806 | Greeting: Hey, there! 
+2020-11-06 14:04:29.321262 | Offer: Would you like some hand sanitizer? 
+2020-11-06 14:04:31.301489 | Yes: Great, just put your hand under the dispenser, please! 
+2020-11-06 14:04:32.704341 | Kind no: OK, but it's important to  sanitize your hands often 
+2020-11-06 14:04:34.995384 | Kind no: But your really should sanitize your hands at this point 
+2020-11-06 14:04:35.828908 | Video: Do you want to watch a video on how to properly rub your hands 
+2020-11-06 14:04:37.391612 | Rub: Remember to rub your hands for at least 30 seconds 
+2020-11-06 14:04:42.818759 | Edu: Did you know it's recommended to use hand sanitizer whenever you can't wash your hands? 
+2020-11-06 14:04:43.884969 | Parting: Have a nice day! 
+2020-11-06 14:04:45.854150 | Parting: Have a nice day! 
+2020-11-06 14:04:54.440683 | Greeting: Howdy! 
+2020-11-06 14:04:55.454935 | Greeting: Hey, there! 
+2020-11-06 14:04:55.993745 | Offer: Do you want to clean your hands? 
+2020-11-06 14:04:57.280073 | Offer: Would you like some hand sanitizer? 
+2020-11-06 14:07:05.604647: Device started
+2020-11-06 15:16:10.281908: Device started
+2020-11-11 09:03:02.056663: Device started
+2020-11-11 09:03:11.643316: Activation! Number of activations: 1
+2020-11-11 09:03:17.977418: Activation! Number of activations: 2
+2020-11-11 09:03:22.453815: Activation! Number of activations: 3
+2020-11-11 09:04:07.933932: Device started
+2020-11-11 09:04:21.121688: Activation! Number of activations: 1
+2020-11-11 09:08:39.628182: Device started
+2020-11-11 09:08:48.816488: Activation! Number of activations: 1
+2020-11-11 09:08:51.458416: Activation! Number of activations: 2
+2020-11-11 09:11:53.851619: Device started
+2020-11-11 09:12:04.485003: Activation! Number of activations: 1
+2020-11-11 09:18:07.229270: Device started
+2020-11-11 09:18:23.693676: Activation! Number of activations: 1
+2020-11-11 09:20:49.086323: Device started
+2020-11-11 09:20:59.682592: Activation! Number of activations: 1
+2020-11-11 09:36:17.814846: Device started
+2020-11-11 09:36:32.937858: Activation! Number of activations: 1
+2020-11-11 09:38:01.927275: Device started
+2020-11-11 09:38:06.015912: Activation! Number of activations: 1
+2020-11-11 09:38:13.039269: Activation! Number of activations: 2
+2020-11-11 09:39:31.408902: Device started
+2020-11-11 09:39:35.630818: Activation! Number of activations: 1
+2020-11-11 09:39:39.437806: Activation! Number of activations: 2
+2020-11-11 09:39:41.645895: Activation! Number of activations: 3
+2020-11-11 09:52:19.898358: Device started
+2020-11-11 09:52:30.981688: Activation! Number of activations: 1
+2020-11-11 09:52:33.790167: Activation! Number of activations: 2
+2020-11-11 09:52:35.353069: Activation! Number of activations: 3
+2020-11-11 09:52:36.148914: Activation! Number of activations: 4
+2020-11-11 09:52:37.815207: Activation! Number of activations: 5
+2020-11-11 09:53:11.081782: Device started
+2020-11-11 09:53:24.717982: Activation! Number of activations: 1
+2020-11-11 09:53:27.015889: Activation! Number of activations: 2
+2020-11-11 09:53:28.354455: Activation! Number of activations: 3
+2020-11-11 09:53:28.889303: Activation! Number of activations: 4
+2020-11-11 09:54:39.123742: Device started
+2020-11-11 09:55:04.258333: Activation! Number of activations: 1
+2020-11-11 09:55:04.258437: Activation! Number of activations: 1
+2020-11-11 09:55:07.644930: Activation! Number of activations: 2
+2020-11-11 09:55:07.645035: Activation! Number of activations: 2
+2020-11-11 09:55:13.519305 | Greeting: Howdy! 
+2020-11-11 09:55:16.634406 | Offer: Would you like some hand sanitizer? 
+2020-11-11 09:55:17.394057 | Yes: Great, just put your hand under the dispenser, please! 
+2020-11-11 09:55:18.359784 | Kind no: Okay, maybe next time 
+2020-11-11 09:55:18.825667 | Kind no: But your really should sanitize your hands at this point 
+2020-11-11 09:55:19.163940 | Video: Do you want to watch a video on how to properly rub your hands 
+2020-11-11 09:55:19.567037 | Rub: Remember to rub your hands for at least 30 seconds 
+2020-11-11 09:55:20.006302 | Edu: Did you know that hand sanitizer can eliminate many known viruses, including the corona virus? 
+2020-11-11 09:55:26.568041 | Edu: Did you know that frequent hand sanitization can reduce the spread of the epidemic? 
+2020-11-11 09:55:27.623601 | Edu: Did you know it's recommended to use hand sanitizer whenever you can't wash your hands? 
+2020-11-11 09:55:28.652116 | Edu: Did you know that hand sanitizer can eliminate many known viruses, including the corona virus? 
+2020-11-11 09:55:29.431682 | Edu: Did you know that hand sanitizer can eliminate many known viruses, including the corona virus? 
+2020-11-11 09:55:30.018365 | Edu: Did you know it's recommended to use hand sanitizer whenever you can't wash your hands? 
+2020-11-11 09:55:30.724006 | Video: Do you want to watch a video on how to properly rub your hands 
+2020-11-11 09:55:31.200400 | Kind no: But it's important to sanitize your hands often 
+2020-11-11 09:55:31.593761 | Kind no: OK, but it's important to  sanitize your hands often 
+2020-11-11 09:55:31.975294 | Yes: Great, just put your hand under the dispenser, please! 
+2020-11-11 09:55:34.746554 | Yes: Great, just put your hand under the dispenser, please! 
+2020-11-11 09:55:35.278441 | Kind no: Okay, maybe next time 
+2020-11-11 09:59:44.171173: Device started
+2020-11-11 09:59:57.035812: Activation! Number of activations: 1
+2020-11-11 09:59:57.035925: Activation! Number of activations: 1
+2020-11-11 09:59:59.199915 | Greeting: Howdy! 
+2020-11-11 10:00:00.545946 | Offer: Did you sanitize your hands recently? 
+2020-11-11 10:00:01.053035 | Yes: Great, just put your hand under the dispenser, please! 
+2020-11-11 10:00:02.797495 | Edu: Did you know that frequent hand sanitization can reduce the spread of the epidemic? 
+2020-11-11 10:00:03.600792 | Edu: Did you know that hand sanitizer can eliminate many known viruses, including the corona virus? 
+2020-11-11 10:00:07.663617 | Rub: Remember to rub your hands for at least 30 seconds 
+2020-11-11 10:00:08.129186 | Video: Do you want to watch a video on how to properly rub your hands 
+2020-11-11 10:00:08.820121 | Kind no: But your really should sanitize your hands at this point 
+2020-11-11 10:00:09.271905 | Kind no: Okay, maybe next time 
+2020-11-11 10:00:09.648793 | Yes: Great, just put your hand under the dispenser, please! 
+2020-11-11 10:00:11.162114 | Parting: Have a nice day and remember to keep your hands clean! 
+2020-11-11 10:00:11.887721 | Edu: Remember to keep a distance of at least one meter from other people whenever possible 
+2020-11-11 10:00:12.553670 | Edu: Did you know that hand sanitizer can eliminate many known viruses, including the corona virus? 
+2020-11-11 15:12:48.007920: Device started
+2020-11-11 15:36:20.758350: Device started
+2020-11-11 15:36:34.454548: Activation! Number of activations: 1
+2020-11-11 15:38:30.951531: Device started
+2020-11-11 15:38:43.389100: Activation! Number of activations: 1
+2020-11-11 15:39:39.589987: Device started
+2020-11-11 15:39:49.395962: Activation! Number of activations: 1
+2020-11-11 15:39:59.454027: Activation! Number of activations: 2
+2020-11-11 15:40:00.792011: Activation! Number of activations: 3
+2020-11-11 15:40:01.471204: Activation! Number of activations: 4
+2020-11-11 15:40:53.260126: Device started
+2020-11-11 15:41:10.933422: Activation! Number of activations: 1
+2020-11-11 15:41:13.919982: Activation! Number of activations: 2
+2020-11-11 15:41:14.521167: Activation! Number of activations: 3
+2020-11-11 15:41:16.309358: Activation! Number of activations: 4
+2020-11-11 15:44:02.675927: Device started
+2020-11-11 15:44:15.919713: Activation! Number of activations: 1
+2020-11-11 15:44:17.473572: Activation! Number of activations: 2
+2020-11-11 15:44:18.493620: Activation! Number of activations: 3
+2020-11-11 15:44:19.432711: Activation! Number of activations: 4
+2020-11-11 15:44:52.857949: Device started
+2020-11-11 15:45:08.424411: Activation! Number of activations: 1
+2020-11-11 15:45:09.703595: Activation! Number of activations: 2
+2020-11-11 15:45:10.362682: Activation! Number of activations: 3
+2020-11-11 15:45:10.763689: Activation! Number of activations: 4
+2020-11-11 15:46:55.214333: Activation! Number of activations: 5
+2020-11-11 15:46:57.364910: Activation! Number of activations: 6
+2020-11-11 15:46:59.729310: Activation! Number of activations: 7

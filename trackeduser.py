@@ -1,11 +1,16 @@
 import pygame
+import pygame.freetype
 from math import sin,cos,radians
 
 
 RUBTIME = 30
-IM_SIZE = 120
-PIE_SIZE1 = IM_SIZE+int(IM_SIZE*0.15)
-PIE_SIZE0 = int(IM_SIZE*0.4)
+#IM_SIZE = 120
+#PIE_SIZE1 = IM_SIZE+int(IM_SIZE*0.15)
+#PIE_SIZE0 = int(IM_SIZE*0.4)
+
+IM_SIZE = 160 #moi
+PIE_SIZE1 = IM_SIZE+int(IM_SIZE*0.15) #moi
+
 
 TYPE = 1
 """
@@ -14,7 +19,8 @@ TYPE:
 1 for larger edge clock
 
 """
-
+myfont = pygame.freetype.SysFont(pygame.freetype.get_default_font(), 20) #moi
+fontcolor = (0,0,255) #moi
 #UPDATE_HZ = 8
 #BITE = 360/(30*UPDATE_HZ) #Bite pr update
 
@@ -28,6 +34,7 @@ def pie(scr,color,center,radius,start_angle,stop_angle, inc):
     
 class TrackedUser:
     def __init__(self, surface, frame, x, y, hz):
+        self.hz = hz
         self.surface = surface      #FinalSurface
         self.bite = 360/(RUBTIME*hz)
         self.frame = frame          # Image
@@ -52,7 +59,7 @@ class TrackedUser:
         pygame.draw.circle(self.frame_mask, (255, 255, 255, 255), (int(IM_SIZE/2), int(IM_SIZE/2)), int(IM_SIZE/2))
         self.frame_mask.blit(self.frame_surf, (0,0), special_flags=pygame.BLEND_RGBA_MIN)
         
-        
+
     def update(self):
         if TYPE == 0:
             pie(self.pieTime, (0,255,0,0), (PIE_SIZE0/2, PIE_SIZE0/2), PIE_SIZE0/2 , self.timer*self.bite , (self.timer+1)*self.bite, 1)
@@ -62,6 +69,8 @@ class TrackedUser:
        
     def show(self, x, y):
         if TYPE == 1:
+            text_surface, _ = myfont.render(f"{int(self.timer/self.hz)}", fontcolor) #moi
+            self.surface.blit(text_surface, (self.x+x, self.y+y)) #moi
             self.surface.blit(self.pieTime, (self.x-(PIE_SIZE1-IM_SIZE)/2+x, self.y-(PIE_SIZE1-IM_SIZE)/2+y))
         self.surface.blit(self.frame_mask, (self.x+x, self.y+y) )
         if TYPE == 0:
@@ -79,6 +88,6 @@ def updateAll(objects):
 def showAll(objects):
     i = 0
     for obj in objects[0:5]:
-        obj.show(i,0)
+        obj.show(i,50)
         i += IM_SIZE*1.25
         
