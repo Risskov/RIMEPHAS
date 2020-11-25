@@ -31,10 +31,28 @@ import RPi.GPIO as GPIO
 import os
 import time
 #import picamera
+import Adafruit_GPIO.SPI as SPI
+import Adafruit_MCP3008
 
+from irSensorClass import irSensor
+
+# Software SPI configuration:
+CLK  = 18
+MISO = 23
+MOSI = 24
+CS   = 25
+
+numSensors = 3
+sensorThreshold = 1.5
+
+ADC = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
+
+irSensors = irSensor(ADC, numSensors, sensorThreshold)
+
+thresholdValue = irSensors.initSensors()
 
 ##########  Settings  ##########
-wizardOfOz = False
+wizardOfOz = True
 largeScreen = True
 size = (800,480)
 largeSize = (800,1280)
@@ -99,6 +117,13 @@ monsterblinkR = pygame.image.load("images/png/monsterclosedR.png")
 benderL = pygame.image.load("images/bg/benderL.png")
 benderR = pygame.transform.flip(benderL, True, False)
 benderpupil = pygame.image.load("images/bg/benderpupil.png")
+
+handDetectL = pygame.image.load("images/png/left_hand_detect2.png")
+scalex = int(handDetectL.get_width()/1.5)
+scaley = int(handDetectL.get_height()/1.5)
+handDetectL = pygame.transform.scale(handDetectL, (scalex,scaley))
+handDetectR = pygame.transform.flip(handDetectL, True, False)
+#print("hm: ", handDetectL.get_size())
 
 ########## Load sounds ##########
 Hi_sanitizer = "sounds/Hi_sanitizer.mp3"
@@ -326,7 +351,8 @@ def interaction(*items):
             textList = []
             if threadevent.is_set(): break
     threadevent.clear()
-    if interactionWait: state = BLINKSTATE2
+    if interactionWait: state = BLINKSTATE2 #BLINKSTATE2
+    print("Flow ended")
     #show_buttons = False
 
 ########## Interaction function for two-way interaction ##########
@@ -335,7 +361,7 @@ def interactionQuestion(question):
         novideo = True
         question = 0
     else: novideo = False
-    global show_buttons
+    global show_buttons, show_hand_detect
     skip = False
     lastNumberOfActivations = disp.numberOfActivations
     speech_out(question)
@@ -380,6 +406,9 @@ def interactionQuestion(question):
         #    speech_out(question+4)
         #    show_buttons = True
         #    i += 1
+        elif i < 1:
+            show_hand_detect = True
+            i += 1
         elif question == 1:
             speech_out(6)
             break
@@ -388,6 +417,7 @@ def interactionQuestion(question):
             #speech_out(7)
             skip = True
             break
+    show_hand_detect = False
     print("Interaction ended")
     return skip
 
@@ -485,6 +515,7 @@ interrupted = False
 yes_detected = False
 no_detected = False
 timeout = 0.
+show_hand_detect = False
 
 show_buttons = False
 interactionWait = False #Indicate if waiting between interactions
@@ -526,6 +557,8 @@ MONSTERBLINKSTATE = 11
 MONSTERBLINKSTATE2 = 12
 MONSTERBLINKSTATE3 = 13
 GRAPHSTATE = 14
+WAITSTATE = 15
+TESTSTATE = 16
 state = NORMALSTATE
 
 textList = []
@@ -559,7 +592,7 @@ if __name__ == '__main__':
     disp.init_GPIO()
     # Initialize LEDs
     leds = LEDs.LEDinit()
-    
+    disp.gelUpdate()
     pygame.time.set_timer(BLINKEVENT, 10000, True)
     monsterblinks = [monsterblinkL, monsterblinkM, monsterblinkR]
     
@@ -613,10 +646,18 @@ if __name__ == '__main__':
     
     # Set up text
     myfont = pygame.freetype.SysFont(pygame.freetype.get_default_font(), 20)
+    bubblefont = pygame.freetype.SysFont(pygame.freetype.get_default_font(), 30)
+    bigfont = pygame.freetype.SysFont(pygame.freetype.get_default_font(), 60)
+    #handsfont = pygame.freetype.SysFont(
     #header_font = pygame.freetype.SysFont(pygame.freetype.get_default_font(), 50)
     #scroll_text = "This is an example of scrolling text moving over the screen"
     #scroll_object = ScrollText(finalSurface, scroll_text, top_screen_height+400, (0,0,255))
     #text_surface, _ = header_font.render("Welcome to Abena", (0,0,0))
+    
+    yes_rect = pygame.Rect(100-50, top_screen_height+150, 170, 70)
+    no_rect = pygame.Rect(offset+50, top_screen_height+150, 170, 70)
+    ja_text, _ = bigfont.render("Ja", (0,0,0))
+    nej_text, _ = bigfont.render("Nej", (0,0,0))
     
     done = False
     start = time.time()
@@ -817,9 +858,9 @@ if __name__ == '__main__':
                             #    interactionItems.append("nudge")
                             #    interactionItems.append(0)
                             if interactionIndex == 0:      # 1
-                                interactionItems.append("sanitizer")
+                                interactionItems.append("novideo")
                                 if not recurrentsVideo or len(keys - recurrentsVideo) >= 2:
-                                    interactionItems.append("video")
+                                    #interactionItems.append("video")
                                     videoKeys = keys
                                 else:
                                     interactionItems.append("countdown")
@@ -891,7 +932,14 @@ if __name__ == '__main__':
                     
         lastNumberOfActivations = disp.numberOfActivations
         st.update_plot(disp.numberOfActivations, numberOfPeople)
-        disp.update()
+        irSensors.detectHands(ADC)
+        hands = irSensors.getHandList()
+        #print(hands)
+        if hands[0]:
+            yes_detected = True
+        elif hands[1]:
+            no_detected = True
+        #disp.update()
         ########## State Machine ##########
         screen.fill(BACKGROUND)
         
@@ -948,6 +996,14 @@ if __name__ == '__main__':
             screen.blit(monsterblinks[2], (0,0))
         elif state == GRAPHSTATE:
             screen.blit(plot, (0,0))
+        elif state == WAITSTATE:
+            print("Wait state")
+            pupilL = 0
+            pupilR = 0
+            pupilV = -50
+            blitImages(normalwhiteL, normalwhiteR)
+            drawPupils()
+            blitImages(normalL, normalR)
         if show_buttons:
             showButtons()
         
@@ -958,19 +1014,28 @@ if __name__ == '__main__':
             print("Notification sent!")
         '''
         screen.blit(menuicon, (5, size[1]-50))
-        
+
         if largeScreen: 
             scalescreen = pygame.transform.smoothscale(screen, (top_screen_width,top_screen_height))
             finalSurface.fill(BACKGROUND)
-            if textList:
+            if show_hand_detect:
+                finalSurface.blit(handDetectL, (0,largeSize[1]-600+150))
+                finalSurface.blit(handDetectR, (500,largeSize[1]-600+150))
+                pygame.draw.rect(finalSurface, (255,0,0), yes_rect)
+                pygame.draw.rect(finalSurface, (0,255,0), no_rect)
+                finalSurface.blit(nej_text, (100-50+50, top_screen_height+150+10))
+                finalSurface.blit(ja_text, (offset+50+40, top_screen_height+150+10))
+            elif textList:
                 text_offset = 0
                 for txt in textList:
                     finalSurface.blit(txt, ((top_screen_width-txt.get_width())/2,top_screen_height+250+text_offset))
-                    text_offset += 75
+                    text_offset += 75         
             else:
                 showimages.showImage(finalSurface, 0, largeSize[1]-600, 100) #Infographic images
             finalSurface.blit(scalescreen, (0,0))
             if bubbles:
+                text_surface, _ = bubblefont.render("Gnid hænderne indtil tiden er udløbet", (0,0,255)) #moi
+                finalSurface.blit(text_surface, (200, top_screen_height+50)) #moi
                 trackeduser.showAll(bubbles)       #Rub timer bubbles
 
         else: finalSurface.blit(screen, (0,0))

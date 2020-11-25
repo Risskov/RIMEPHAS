@@ -153,7 +153,7 @@ def faceTracking(sender):
         now = time.time()
         tid = math.trunc(now-start)
         if tid != old:
-            print(fps)
+            #print(fps)
             fps = 0
         old = tid
     print("Closing facetracking")    

@@ -3,16 +3,15 @@ import RPi.GPIO as GPIO
 #global variables
 #numberOfActivations = 0
 # Pins
-PIN_MOTORDETECT = 24
+PIN_MOTORDETECT = 4
 PIN_IRSENOR = 20
 #PIN_LED = 25
-PIN_PIR = 25
+PIN_PIR = 17
+#PIN_LEFT_IR = 
+#PIN_RIGHT_IR = 
 
-# SPI Pins
-PIN_CLK = 11
-PIN_MOSI = 10
-PIN_MISO = 9
-PIN_CS = 8
+
+
 
 class Dispenser:
     def __init__(self):
@@ -23,6 +22,8 @@ class Dispenser:
         self.dispenserEmptyTemp = 0
         self.activated = False
         self.numberOfActivations = 0
+        self.leftIR = False
+        self.rightIR = False
 
     def init_GPIO(self):
         # Init GPIO pins
@@ -30,12 +31,6 @@ class Dispenser:
         #GPIO.setup(PIN_LED, GPIO.OUT)
         #GPIO.output(PIN_LED, False)
         GPIO.setup(PIN_MOTORDETECT, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        
-        # Spi pins Init
-        GPIO.setup(PIN_CLK, GPIO.OUT)
-        GPIO.setup(PIN_MISO, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(PIN_MOSI, GPIO.OUT)
-        GPIO.setup(PIN_CS, GPIO.OUT)
         
         GPIO.setup(PIN_PIR, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     
@@ -80,7 +75,7 @@ class Dispenser:
 
     def update(self):
         #global numberOfActivations, irSensorThreshhold, dispenserEmpty, turnOffDispenser, dispenserRefilled, dispenserEmptyTemp, activated
-        ADCvalue = self.readAdc(0, PIN_CLK, PIN_MISO, PIN_MOSI, PIN_CS)
+        #ADCvalue = self.readAdc(0, PIN_CLK, PIN_MISO, PIN_MOSI, PIN_CS)
         if not self.turnOffDispenser and not self.activated and GPIO.input(PIN_MOTORDETECT):          
             print("Motor Activated!")
             #count number of times used
@@ -105,3 +100,22 @@ class Dispenser:
         else:
             GPIO.output(PIN_LED, False)
         """
+    def dispenser_callback(self, channel):
+        print("callback")
+        self.numberOfActivations += 1
+        
+    def right_callback(self, channel):
+        self.rightIR = True
+        
+    def left_callback(self, channel):
+        self.leftIR = True
+
+    def gelUpdate(self):
+        GPIO.add_event_detect(PIN_MOTORDETECT, GPIO.RISING, callback=self.dispenser_callback, bouncetime=2000)
+    """    
+    def getRightIR:
+        GPIO.add_event_detect(PIN_RIGHT_IR, GPIO.RISING, callback=self.right_callback, bouncetime=2000)
+        
+    def getLeftIR:
+        GPIO.add_event_detect(PIN_LEFT_IR, GPIO.RISING, callback=self.left_callback, bouncetime=2000)
+    """    

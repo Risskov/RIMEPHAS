@@ -128,8 +128,8 @@ faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 def main():
     cap = cv2.VideoCapture(-1)
     cv2.namedWindow('image', cv2.WINDOW_AUTOSIZE)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, res[0])
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, res[1])
+    #cap.set(cv2.CAP_PROP_FRAME_WIDTH, res[0])
+    #cap.set(cv2.CAP_PROP_FRAME_HEIGHT, res[1])
     frameCounter = 0
     currentID = 0
     faceTrackers = {}

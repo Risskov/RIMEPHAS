@@ -32,3 +32,6 @@ cd snowboy/swig/Python3 && make
 #Open "https://snowboy.kitt.ai/" , login & register ,create and download your voice model
 #Copy your voice model to project path
 #Now you can use snowboy module in python file from this path
+
+
+ sudo nano /etc/wpa_supplicant/wpa_supplicant.conf

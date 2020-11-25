@@ -170,3 +170,616 @@
 2020-11-11 15:46:55.214333: Activation! Number of activations: 5
 2020-11-11 15:46:57.364910: Activation! Number of activations: 6
 2020-11-11 15:46:59.729310: Activation! Number of activations: 7
+2020-11-13 08:30:23.705128: Device started
+2020-11-13 08:30:33.011838: Activation! Number of activations: 1
+2020-11-13 08:30:36.364617: Activation! Number of activations: 2
+2020-11-13 08:31:40.783038: Device started
+2020-11-13 08:31:51.454931: Activation! Number of activations: 1
+2020-11-13 08:32:37.211820: Device started
+2020-11-13 08:32:46.946399: Activation! Number of activations: 1
+2020-11-13 08:33:20.386490: Activation! Number of activations: 2
+2020-11-13 08:33:21.619764: Activation! Number of activations: 3
+2020-11-13 08:33:22.951916: Activation! Number of activations: 4
+2020-11-13 08:33:23.751572: Activation! Number of activations: 5
+2020-11-13 08:34:06.193005: Device started
+2020-11-13 08:34:16.043544: Activation! Number of activations: 1
+2020-11-13 08:34:16.791520: Activation! Number of activations: 2
+2020-11-13 08:34:17.379896: Activation! Number of activations: 3
+2020-11-13 08:34:17.994284: Activation! Number of activations: 4
+2020-11-13 08:36:02.021593: Device started
+2020-11-13 08:36:11.756119: Activation! Number of activations: 1
+2020-11-13 08:36:12.555069: Activation! Number of activations: 2
+2020-11-13 08:36:13.889722: Activation! Number of activations: 3
+2020-11-13 08:36:15.030920: Activation! Number of activations: 4
+2020-11-13 08:36:51.675816: Activation! Number of activations: 5
+2020-11-13 08:36:52.508712: Activation! Number of activations: 6
+2020-11-13 08:36:56.802346: Activation! Number of activations: 7
+2020-11-13 08:37:01.289340: Activation! Number of activations: 8
+2020-11-13 08:37:06.572110: Activation! Number of activations: 9
+2020-11-13 08:37:10.258791: Activation! Number of activations: 10
+2020-11-13 08:37:14.477476: Activation! Number of activations: 11
+2020-11-13 08:52:55.194435: Device started
+2020-11-13 08:55:30.962728: Device started
+2020-11-13 08:56:11.723075: Device started
+2020-11-13 08:59:19.367932: Device started
+2020-11-13 09:00:16.422309: Device started
+2020-11-13 09:03:13.103607: Device started
+2020-11-13 09:04:15.737973: Activation! Number of activations: 1
+2020-11-13 09:04:19.070215: Activation! Number of activations: 2
+2020-11-13 09:04:21.718981: Activation! Number of activations: 3
+2020-11-13 09:04:24.844127: Activation! Number of activations: 4
+2020-11-13 09:04:57.038180: Activation! Number of activations: 5
+2020-11-13 09:05:29.476125: Activation! Number of activations: 6
+2020-11-13 09:05:30.967624: Activation! Number of activations: 7
+2020-11-13 09:05:31.130322: Activation! Number of activations: 8
+2020-11-13 09:05:31.301565: Activation! Number of activations: 9
+2020-11-13 09:05:31.702879: Activation! Number of activations: 10
+2020-11-13 09:05:31.946666: Activation! Number of activations: 11
+2020-11-13 09:05:35.365637: Activation! Number of activations: 12
+2020-11-13 09:05:39.108947: Activation! Number of activations: 13
+2020-11-13 09:05:43.719985: Activation! Number of activations: 14
+2020-11-13 09:45:18.961109: Device started
+2020-11-13 09:45:29.090289: Activation! Number of activations: 1
+2020-11-13 09:45:31.675836: Activation! Number of activations: 2
+2020-11-13 09:51:00.595558: Device started
+2020-11-13 09:51:11.309764: Activation! Number of activations: 1
+2020-11-13 09:51:31.507454: Activation! Number of activations: 2
+2020-11-13 09:51:35.297695: Activation! Number of activations: 3
+2020-11-13 09:51:36.020605: Activation! Number of activations: 4
+2020-11-13 09:51:36.754653: Activation! Number of activations: 5
+2020-11-13 09:52:42.740235: Device started
+2020-11-13 09:52:58.002999: Activation! Number of activations: 1
+2020-11-13 09:53:01.897865: Activation! Number of activations: 2
+2020-11-13 09:54:32.045851: Device started
+2020-11-13 09:54:41.804446: Activation! Number of activations: 1
+2020-11-13 09:54:44.153761: Activation! Number of activations: 2
+2020-11-13 09:57:14.068713: Device started
+2020-11-13 09:57:23.805809: Activation! Number of activations: 1
+2020-11-13 09:57:24.696352: Activation! Number of activations: 2
+2020-11-13 09:58:08.965965: Device started
+2020-11-13 09:58:18.978066: Activation! Number of activations: 1
+2020-11-13 09:58:20.791457: Activation! Number of activations: 2
+2020-11-13 09:58:43.031102: Device started
+2020-11-13 10:01:12.635997: Activation! Number of activations: 1
+2020-11-13 10:01:56.420987: Device started
+2020-11-13 10:02:06.849058: Activation! Number of activations: 1
+2020-11-13 10:02:09.420737: Activation! Number of activations: 2
+2020-11-13 10:03:24.782459: Device started
+2020-11-13 10:03:34.892380: Activation! Number of activations: 1
+2020-11-13 10:06:52.679676: Device started
+2020-11-13 10:07:02.487909: Activation! Number of activations: 1
+2020-11-13 10:07:04.837520: Activation! Number of activations: 2
+2020-11-13 10:08:36.514236: Device started
+2020-11-13 10:17:07.707389: Activation! Number of activations: 1
+2020-11-13 10:17:10.484651: Activation! Number of activations: 2
+2020-11-13 10:19:38.559873: Device started
+2020-11-13 10:19:50.089867: Activation! Number of activations: 1
+2020-11-13 10:20:38.753225: Device started
+2020-11-13 10:20:49.981813: Activation! Number of activations: 1
+2020-11-13 10:20:53.811674: Activation! Number of activations: 2
+2020-11-13 10:20:59.907603: Activation! Number of activations: 3
+2020-11-13 10:21:51.220732: Device started
+2020-11-13 10:22:02.116676: Activation! Number of activations: 1
+2020-11-13 10:22:29.578281: Device started
+2020-11-13 10:22:39.254452: Activation! Number of activations: 1
+2020-11-13 10:38:46.575070: Device started
+2020-11-13 10:38:55.628019: Activation! Number of activations: 1
+2020-11-13 10:38:56.622379: Activation! Number of activations: 2
+2020-11-13 10:38:57.995197: Activation! Number of activations: 3
+2020-11-13 10:38:58.638316: Activation! Number of activations: 4
+2020-11-13 10:38:59.084760: Activation! Number of activations: 5
+2020-11-13 10:38:59.520819: Activation! Number of activations: 6
+2020-11-13 10:38:59.816299: Activation! Number of activations: 7
+2020-11-13 10:39:00.045446: Activation! Number of activations: 8
+2020-11-13 10:39:00.200843: Activation! Number of activations: 9
+2020-11-13 10:42:58.583044: Device started
+2020-11-13 10:43:08.135468: Activation! Number of activations: 1
+2020-11-13 10:44:11.399139: Device started
+2020-11-13 10:44:21.519822: Activation! Number of activations: 1
+2020-11-13 10:44:22.695076: Activation! Number of activations: 2
+2020-11-13 10:44:37.179720: Activation! Number of activations: 3
+2020-11-13 10:52:53.691473: Device started
+2020-11-13 10:53:03.139305: Activation! Number of activations: 1
+2020-11-13 10:54:10.747964: Device started
+2020-11-13 10:54:27.109040: Activation! Number of activations: 1
+2020-11-13 10:54:30.819667: Activation! Number of activations: 2
+2020-11-13 10:54:31.942609: Activation! Number of activations: 3
+2020-11-13 10:54:32.693767: Activation! Number of activations: 4
+2020-11-13 10:54:32.957445: Activation! Number of activations: 5
+2020-11-13 10:54:33.209210: Activation! Number of activations: 6
+2020-11-13 11:03:40.322674: Device started
+2020-11-13 11:03:49.835612: Activation! Number of activations: 1
+2020-11-13 11:05:20.895503: Device started
+2020-11-13 11:05:40.506198: Activation! Number of activations: 1
+2020-11-13 11:08:28.516355: Device started
+2020-11-13 11:08:42.509734: Activation! Number of activations: 1
+2020-11-13 11:12:37.446386: Device started
+2020-11-13 11:12:47.633432: Activation! Number of activations: 1
+2020-11-13 11:14:05.553766: Device started
+2020-11-13 11:14:15.556066: Activation! Number of activations: 1
+2020-11-13 11:14:24.074139: Activation! Number of activations: 2
+2020-11-13 12:04:13.569093: Device started
+2020-11-13 12:04:46.477888: Device started
+2020-11-13 12:06:08.936425: Device started
+2020-11-13 12:06:21.626518: Activation! Number of activations: 4
+2020-11-13 12:06:21.760739: Activation! Number of activations: 68
+2020-11-13 12:06:21.887451: Activation! Number of activations: 91
+2020-11-13 12:06:22.046843: Activation! Number of activations: 94
+2020-11-13 12:06:22.157942: Activation! Number of activations: 106
+2020-11-13 12:06:22.257762: Activation! Number of activations: 120
+2020-11-13 12:06:22.378707: Activation! Number of activations: 131
+2020-11-13 12:06:22.472529: Activation! Number of activations: 135
+2020-11-13 12:06:22.570798: Activation! Number of activations: 139
+2020-11-13 12:07:34.773101: Device started
+2020-11-13 12:07:45.581781: Activation! Number of activations: 1
+2020-11-13 12:09:01.055835: Device started
+2020-11-13 12:09:07.278734: Activation! Number of activations: 1
+2020-11-13 12:09:29.881552: Device started
+2020-11-13 12:09:36.366372: Activation! Number of activations: 24
+2020-11-13 12:09:36.452467: Activation! Number of activations: 55
+2020-11-13 12:09:36.531493: Activation! Number of activations: 75
+2020-11-13 12:09:36.600552: Activation! Number of activations: 79
+2020-11-13 12:09:36.743585: Activation! Number of activations: 80
+2020-11-13 12:09:36.823717: Activation! Number of activations: 96
+2020-11-13 12:09:36.916059: Activation! Number of activations: 117
+2020-11-13 12:09:36.984916: Activation! Number of activations: 140
+2020-11-13 12:09:37.067068: Activation! Number of activations: 161
+2020-11-13 12:09:37.138952: Activation! Number of activations: 168
+2020-11-13 12:09:37.203841: Activation! Number of activations: 178
+2020-11-13 12:09:37.273198: Activation! Number of activations: 193
+2020-11-13 12:09:37.340324: Activation! Number of activations: 194
+2020-11-13 12:29:48.282480: Device started
+2020-11-13 12:59:03.689856: Device started
+2020-11-13 13:03:05.699827: Device started
+2020-11-13 13:08:22.310700: Device started
+2020-11-13 13:09:06.765766: Device started
+2020-11-13 13:12:18.179465: Device started
+2020-11-13 13:12:58.332366: Device started
+2020-11-13 13:14:14.801613: Device started
+2020-11-13 13:14:48.544651: Device started
+2020-11-13 13:15:22.261182: Device started
+2020-11-13 13:15:35.825195: Device started
+2020-11-13 13:25:16.986525: Device started
+2020-11-13 13:25:52.394924: Device started
+2020-11-13 13:30:19.306061: Device started
+2020-11-13 13:31:14.399039: Device started
+2020-11-13 13:31:34.578656: Device started
+2020-11-13 13:31:57.181572: Device started
+2020-11-13 13:32:16.133563: Device started
+2020-11-13 13:42:43.189478: Device started
+2020-11-13 13:43:10.763641: Device started
+2020-11-13 13:45:22.828661: Device started
+2020-11-13 13:46:34.581271: Device started
+2020-11-13 14:24:39.959288: Device started
+2020-11-13 14:28:05.878236: Activation! Number of activations: 1
+2020-11-13 14:30:19.970822: Device started
+2020-11-13 14:30:48.780590: Device started
+2020-11-13 14:31:30.075942: Activation! Number of activations: 1
+2020-11-13 14:34:23.547699: Device started
+2020-11-13 14:52:08.690192: Device started
+2020-11-13 15:31:29.485990: Device started
+2020-11-13 15:37:54.446372: Activation! Number of activations: 1
+2020-11-13 15:47:41.349958: Activation! Number of activations: 2
+2020-11-13 15:48:00.855958: Activation! Number of activations: 3
+2020-11-13 15:50:52.671384: Activation! Number of activations: 4
+2020-11-13 15:50:54.034582: Activation! Number of activations: 5
+2020-11-13 15:51:01.993790: Activation! Number of activations: 6
+2020-11-13 15:52:42.716827: Activation! Number of activations: 7
+2020-11-13 16:02:12.874084: Device started
+2020-11-13 16:02:23.750662: Activation! Number of activations: 1
+2020-11-13 16:12:42.570624: Device started
+2020-11-13 16:14:21.638291: Device started
+2020-11-13 16:14:31.879284: Activation! Number of activations: 1
+2020-11-13 16:14:40.707702: Activation! Number of activations: 2
+2020-11-13 16:15:26.634821: Device started
+2020-11-13 16:15:36.745126: Activation! Number of activations: 1
+2020-11-13 16:16:29.024117: Device started
+2020-11-13 16:16:39.370820: Activation! Number of activations: 1
+2020-11-13 16:17:05.367785: Activation! Number of activations: 2
+2020-11-13 16:18:21.884048: Device started
+2020-11-13 16:19:21.678156: Activation! Number of activations: 1
+2020-11-13 16:20:36.386338: Activation! Number of activations: 2
+2020-11-13 16:27:32.938099: Device started
+2020-11-13 16:27:44.495137: Activation! Number of activations: 1
+2020-11-13 16:33:15.224212: Activation! Number of activations: 2
+2020-11-13 16:33:34.732223: Activation! Number of activations: 3
+2020-11-13 16:36:55.777354: Device started
+2020-11-13 16:37:22.492179: Activation! Number of activations: 1
+2020-11-16 06:59:13.274970: Device started
+2020-11-16 07:00:17.264994: Activation! Number of activations: 1
+2020-11-16 07:02:21.213080: Device started
+2020-11-16 07:02:41.094919: Activation! Number of activations: 1
+2020-11-16 07:03:18.579062: Device started
+2020-11-16 07:04:29.730040: Device started
+2020-11-16 07:07:49.401968: Device started
+2020-11-16 07:08:23.609029: Device started
+2020-11-16 07:08:49.503699: Device started
+2020-11-16 07:12:19.917760: Device started
+2020-11-16 07:12:56.628033: Device started
+2020-11-16 07:13:25.471436: Device started
+2020-11-16 07:14:31.941333: Device started
+2020-11-16 07:15:12.654888: Device started
+2020-11-16 07:15:33.937776: Device started
+2020-11-16 07:15:52.023334: Device started
+2020-11-16 07:23:53.112381: Device started
+2020-11-16 10:32:48.572670: Device started
+2020-11-16 10:37:54.287295: Activation! Number of activations: 1
+2020-11-16 10:37:57.902686: Activation! Number of activations: 2
+2020-11-16 10:38:00.001587: Activation! Number of activations: 3
+2020-11-16 10:38:34.490089: Activation! Number of activations: 5
+2020-11-16 10:38:58.787510: Activation! Number of activations: 6
+2020-11-16 10:39:52.659711: Activation! Number of activations: 7
+2020-11-16 10:41:02.127558: Activation! Number of activations: 9
+2020-11-16 10:41:04.628513: Activation! Number of activations: 10
+2020-11-16 10:41:10.979248: Activation! Number of activations: 11
+2020-11-16 10:41:13.852488: Activation! Number of activations: 12
+2020-11-16 10:41:33.993752: Activation! Number of activations: 13
+2020-11-16 10:41:37.248835: Activation! Number of activations: 14
+2020-11-16 10:41:47.170617: Activation! Number of activations: 15
+2020-11-16 10:41:51.762157: Activation! Number of activations: 16
+2020-11-16 10:42:01.450959: Activation! Number of activations: 17
+2020-11-16 10:42:22.697485: Activation! Number of activations: 18
+2020-11-16 10:42:47.714541: Activation! Number of activations: 19
+2020-11-16 10:42:51.835685: Activation! Number of activations: 20
+2020-11-16 10:42:54.796738: Activation! Number of activations: 21
+2020-11-16 10:43:16.949934: Activation! Number of activations: 22
+2020-11-16 10:43:26.302359: Activation! Number of activations: 23
+2020-11-16 10:43:41.925268: Activation! Number of activations: 24
+2020-11-16 10:44:54.551828: Activation! Number of activations: 26
+2020-11-16 10:45:43.723717: Activation! Number of activations: 27
+2020-11-16 10:45:46.183852: Activation! Number of activations: 28
+2020-11-16 10:45:56.992105: Activation! Number of activations: 29
+2020-11-16 10:46:13.501332: Activation! Number of activations: 30
+2020-11-16 10:46:17.966740: Activation! Number of activations: 31
+2020-11-16 10:46:24.650407: Activation! Number of activations: 32
+2020-11-16 10:46:31.747925: Activation! Number of activations: 33
+2020-11-16 10:46:47.386875: Activation! Number of activations: 35
+2020-11-16 10:47:30.223048: Activation! Number of activations: 36
+2020-11-16 10:48:26.945417: Activation! Number of activations: 41
+2020-11-16 10:49:00.285150: Activation! Number of activations: 42
+2020-11-16 10:49:34.254040: Activation! Number of activations: 45
+2020-11-16 10:50:03.211926: Activation! Number of activations: 46
+2020-11-16 10:50:45.588622: Activation! Number of activations: 48
+2020-11-16 10:51:11.514781: Activation! Number of activations: 49
+2020-11-16 10:51:46.353230: Activation! Number of activations: 50
+2020-11-16 10:51:51.017666: Activation! Number of activations: 51
+2020-11-16 10:54:52.358523: Device started
+2020-11-16 10:55:05.664617: Activation! Number of activations: 1
+2020-11-16 10:56:12.165091: Activation! Number of activations: 2
+2020-11-16 10:56:31.482324: Activation! Number of activations: 3
+2020-11-16 10:56:45.941463: Activation! Number of activations: 4
+2020-11-16 10:57:29.313924: Activation! Number of activations: 5
+2020-11-16 10:57:37.013458: Activation! Number of activations: 6
+2020-11-16 11:00:00.202130: Activation! Number of activations: 7
+2020-11-16 11:04:56.493998: Activation! Number of activations: 10
+2020-11-16 11:05:02.158612: Activation! Number of activations: 11
+2020-11-16 11:05:10.731602: Activation! Number of activations: 12
+2020-11-16 11:05:24.946636: Activation! Number of activations: 13
+2020-11-16 11:05:28.702190: Activation! Number of activations: 14
+2020-11-16 11:08:15.369501: Activation! Number of activations: 15
+2020-11-16 11:08:27.482574: Activation! Number of activations: 16
+2020-11-16 11:08:56.064890: Activation! Number of activations: 17
+2020-11-16 11:14:06.087181: Activation! Number of activations: 20
+2020-11-16 11:14:11.464416: Activation! Number of activations: 21
+2020-11-16 11:14:29.602572: Activation! Number of activations: 22
+2020-11-16 11:17:32.562452: Activation! Number of activations: 23
+2020-11-16 11:18:19.103901: Activation! Number of activations: 24
+2020-11-16 11:18:41.820182: Activation! Number of activations: 25
+2020-11-16 11:19:00.868438: Activation! Number of activations: 26
+2020-11-16 11:19:05.173720: Activation! Number of activations: 27
+2020-11-16 11:19:17.218519: Activation! Number of activations: 28
+2020-11-16 11:19:37.440493: Activation! Number of activations: 29
+2020-11-16 11:21:05.938597: Activation! Number of activations: 30
+2020-11-16 11:21:58.081115: Activation! Number of activations: 31
+2020-11-16 11:22:05.946941: Activation! Number of activations: 32
+2020-11-16 11:22:23.592812: Activation! Number of activations: 34
+2020-11-16 11:22:54.353114: Activation! Number of activations: 35
+2020-11-16 11:25:07.017610: Activation! Number of activations: 36
+2020-11-16 11:25:11.039817: Activation! Number of activations: 37
+2020-11-16 11:25:20.900820: Activation! Number of activations: 39
+2020-11-16 11:25:23.373912: Activation! Number of activations: 40
+2020-11-16 11:25:26.763522: Activation! Number of activations: 41
+2020-11-16 11:25:34.525729: Activation! Number of activations: 42
+2020-11-16 11:25:45.659952: Activation! Number of activations: 43
+2020-11-16 11:26:18.295217: Activation! Number of activations: 44
+2020-11-16 11:28:44.179612: Activation! Number of activations: 45
+2020-11-16 11:29:41.191669: Activation! Number of activations: 47
+2020-11-16 11:30:08.642809: Activation! Number of activations: 48
+2020-11-16 11:30:12.588934: Activation! Number of activations: 49
+2020-11-16 11:30:22.367980: Activation! Number of activations: 50
+2020-11-16 11:30:34.079158: Activation! Number of activations: 51
+2020-11-16 11:31:21.566955: Activation! Number of activations: 52
+2020-11-16 11:31:32.147140: Activation! Number of activations: 53
+2020-11-16 11:31:42.738511: Activation! Number of activations: 54
+2020-11-16 11:32:59.990626: Activation! Number of activations: 55
+2020-11-16 11:33:03.749604: Activation! Number of activations: 56
+2020-11-16 11:34:06.515309: Activation! Number of activations: 57
+2020-11-16 11:34:08.850399: Activation! Number of activations: 58
+2020-11-16 11:34:23.978523: Activation! Number of activations: 59
+2020-11-16 11:36:08.808660: Activation! Number of activations: 60
+2020-11-16 11:36:11.687609: Activation! Number of activations: 61
+2020-11-16 11:36:33.621929: Activation! Number of activations: 62
+2020-11-16 11:36:41.096987: Activation! Number of activations: 63
+2020-11-16 11:36:45.603681: Activation! Number of activations: 64
+2020-11-16 11:42:06.617830: Device started
+2020-11-16 11:42:51.202756: Activation! Number of activations: 2
+2020-11-16 11:42:57.855699: Activation! Number of activations: 3
+2020-11-16 11:43:21.293399: Activation! Number of activations: 5
+2020-11-16 11:44:03.927708: Activation! Number of activations: 6
+2020-11-16 11:44:08.969491: Activation! Number of activations: 7
+2020-11-16 11:45:32.049250: Activation! Number of activations: 8
+2020-11-16 11:45:34.286511: Activation! Number of activations: 9
+2020-11-16 11:45:57.917896: Activation! Number of activations: 10
+2020-11-16 11:46:27.853656: Activation! Number of activations: 11
+2020-11-16 11:46:54.843827: Activation! Number of activations: 12
+2020-11-16 11:47:04.347709: Activation! Number of activations: 13
+2020-11-16 11:47:35.671232: Activation! Number of activations: 14
+2020-11-16 11:47:39.302452: Activation! Number of activations: 15
+2020-11-16 11:48:13.732617: Activation! Number of activations: 16
+2020-11-16 11:49:41.787379: Activation! Number of activations: 17
+2020-11-16 11:49:52.385514: Activation! Number of activations: 18
+2020-11-16 11:50:01.827280: Activation! Number of activations: 19
+2020-11-16 11:50:17.561471: Activation! Number of activations: 20
+2020-11-16 11:50:21.489435: Activation! Number of activations: 21
+2020-11-16 11:51:03.579974: Activation! Number of activations: 22
+2020-11-16 11:51:07.198487: Activation! Number of activations: 23
+2020-11-16 11:51:33.446133: Activation! Number of activations: 24
+2020-11-16 11:51:54.771192: Activation! Number of activations: 25
+2020-11-16 11:53:23.529060: Activation! Number of activations: 26
+2020-11-16 11:54:36.858684: Activation! Number of activations: 27
+2020-11-16 11:54:45.412216: Activation! Number of activations: 28
+2020-11-16 11:54:51.802147: Activation! Number of activations: 29
+2020-11-16 11:54:55.988897: Activation! Number of activations: 30
+2020-11-16 11:54:59.933276: Activation! Number of activations: 31
+2020-11-16 11:55:20.714247: Activation! Number of activations: 32
+2020-11-16 11:55:30.089115: Activation! Number of activations: 33
+2020-11-16 11:55:38.092390: Activation! Number of activations: 34
+2020-11-16 11:55:45.838341: Activation! Number of activations: 35
+2020-11-16 11:55:48.031869: Activation! Number of activations: 36
+2020-11-16 11:56:07.148149: Activation! Number of activations: 37
+2020-11-16 11:56:10.494597: Activation! Number of activations: 38
+2020-11-16 11:56:43.030561: Activation! Number of activations: 39
+2020-11-16 11:57:03.845564: Activation! Number of activations: 40
+2020-11-16 11:58:27.516671: Activation! Number of activations: 41
+2020-11-16 11:59:00.212800: Activation! Number of activations: 42
+2020-11-16 12:00:27.132743: Activation! Number of activations: 43
+2020-11-16 12:01:15.988470: Activation! Number of activations: 44
+2020-11-16 12:02:26.024761: Activation! Number of activations: 45
+2020-11-16 12:02:45.885431: Activation! Number of activations: 46
+2020-11-16 12:03:04.102841: Activation! Number of activations: 47
+2020-11-18 08:45:36.079292: Device started
+2020-11-18 08:48:07.152253: Device started
+2020-11-18 09:32:38.851530: Device started
+2020-11-18 09:32:50.712972: Activation! Number of activations: 1
+2020-11-18 09:38:39.668429: Device started
+2020-11-18 09:39:00.496535: Activation! Number of activations: 1
+2020-11-18 10:32:10.571527: Device started
+2020-11-18 10:39:14.589650: Device started
+2020-11-18 10:39:36.992697: Activation! Number of activations: 1
+2020-11-18 10:42:19.993998: Device started
+2020-11-18 10:42:29.989582: Activation! Number of activations: 1
+2020-11-18 10:43:59.564011: Device started
+2020-11-18 10:44:12.377155: Activation! Number of activations: 1
+2020-11-18 14:30:53.176082: Device started
+2020-11-18 14:35:37.451570: Device started
+2020-11-18 14:36:32.273394: Device started
+2020-11-18 14:38:21.197428: Device started
+2020-11-18 14:38:48.182192: Device started
+2020-11-18 14:45:44.422159: Device started
+2020-11-18 14:48:29.548129: Device started
+2020-11-18 14:51:18.300867: Device started
+2020-11-18 14:51:50.703399: Device started
+2020-11-18 15:05:18.907624: Activation! Number of activations: 1
+2020-11-18 15:05:21.344655: Activation! Number of activations: 2
+2020-11-18 15:05:53.273413: Activation! Number of activations: 3
+2020-11-18 15:15:54.198659: Device started
+2020-11-18 15:16:13.486664: Device started
+2020-11-18 15:16:32.139769: Device started
+2020-11-18 15:17:09.362717: Device started
+2020-11-20 08:56:58.139616: Device started
+2020-11-20 09:02:50.738943: Device started
+2020-11-20 09:04:00.867926: Activation! Number of activations: 1
+2020-11-20 09:04:34.493356: Activation! Number of activations: 2
+2020-11-20 10:19:47.654057: Device started
+2020-11-20 10:22:02.361631: Device started
+2020-11-20 10:22:08.085976: Activation! Number of activations: 1
+2020-11-20 10:22:10.373543: Activation! Number of activations: 2
+2020-11-20 10:22:15.813565: Activation! Number of activations: 3
+2020-11-20 10:22:18.166762: Activation! Number of activations: 4
+2020-11-20 10:23:39.385304: Device started
+2020-11-20 10:29:09.958496: Device started
+2020-11-20 10:31:23.986106: Device started
+2020-11-20 10:32:12.605303: Device started
+2020-11-20 10:32:45.046796: Device started
+2020-11-20 10:33:11.174818: Device started
+2020-11-20 10:34:04.039965: Device started
+2020-11-20 10:34:33.833387: Device started
+2020-11-20 10:35:26.362111: Device started
+2020-11-20 11:13:11.258187: Device started
+2020-11-20 11:20:02.097419: Activation! Number of activations: 1
+2020-11-20 11:29:47.138994: Device started
+2020-11-20 11:51:47.950566: Device started
+2020-11-20 11:58:28.183060: Device started
+2020-11-20 11:58:53.075810: Activation! Number of activations: 1
+2020-11-20 11:59:17.598190: Activation! Number of activations: 2
+2020-11-20 11:59:55.180850: Activation! Number of activations: 3
+2020-11-20 12:19:21.289409: Device started
+2020-11-20 12:25:50.390299: Device started
+2020-11-20 12:48:11.947141: Device started
+2020-11-20 12:50:40.169232: Device started
+2020-11-20 12:51:42.513978: Device started
+2020-11-20 13:02:42.522458: Activation! Number of activations: 2
+2020-11-20 13:04:30.711003: Activation! Number of activations: 3
+2020-11-20 13:08:24.452528: Device started
+2020-11-20 13:14:14.263818: Device started
+2020-11-20 13:27:54.705883: Activation! Number of activations: 1
+2020-11-20 13:34:47.172564: Activation! Number of activations: 3
+2020-11-20 13:53:17.943194: Activation! Number of activations: 4
+2020-11-20 13:59:42.073942: Activation! Number of activations: 5
+2020-11-20 14:09:41.482539: Activation! Number of activations: 6
+2020-11-20 14:10:27.810077: Activation! Number of activations: 7
+2020-11-20 14:12:38.816384: Activation! Number of activations: 8
+2020-11-20 14:25:49.315386: Activation! Number of activations: 9
+2020-11-20 15:54:04.585810: Device started
+2020-11-20 15:54:57.366262: Device started
+2020-11-20 15:56:27.205433: Device started
+2020-11-20 15:57:25.607254: Device started
+2020-11-20 15:58:06.212355: Device started
+2020-11-20 16:00:20.579009: Device started
+2020-11-23 08:41:55.127449: Device started
+2020-11-23 08:43:35.032581: Device started
+2020-11-23 08:44:29.286527: Device started
+2020-11-23 08:50:51.189608: Activation! Number of activations: 2
+2020-11-23 08:51:09.547813: Activation! Number of activations: 3
+2020-11-23 08:52:32.966043: Activation! Number of activations: 4
+2020-11-23 08:54:10.888920: Activation! Number of activations: 5
+2020-11-23 08:56:19.161538: Activation! Number of activations: 6
+2020-11-23 09:02:52.026060: Activation! Number of activations: 7
+2020-11-23 09:02:58.114783: Activation! Number of activations: 8
+2020-11-23 09:04:07.756208: Activation! Number of activations: 9
+2020-11-23 09:04:38.284190: Activation! Number of activations: 10
+2020-11-23 09:08:10.988487: Activation! Number of activations: 12
+2020-11-23 09:08:40.629563: Activation! Number of activations: 13
+2020-11-23 09:12:37.930394: Activation! Number of activations: 14
+2020-11-23 09:16:59.741494: Activation! Number of activations: 16
+2020-11-23 09:17:06.282671: Activation! Number of activations: 17
+2020-11-23 09:18:09.746840: Activation! Number of activations: 18
+2020-11-23 09:25:07.568646: Activation! Number of activations: 19
+2020-11-23 09:31:15.445673: Activation! Number of activations: 20
+2020-11-23 09:31:48.034460: Activation! Number of activations: 21
+2020-11-23 09:34:29.531739: Activation! Number of activations: 22
+2020-11-23 09:40:13.774147: Activation! Number of activations: 24
+2020-11-23 09:40:29.962543: Activation! Number of activations: 25
+2020-11-23 09:41:13.334418: Activation! Number of activations: 27
+2020-11-23 09:49:56.950939: Activation! Number of activations: 29
+2020-11-23 09:53:06.360848: Activation! Number of activations: 30
+2020-11-23 09:59:10.844368: Activation! Number of activations: 31
+2020-11-23 09:59:12.911253: Activation! Number of activations: 32
+2020-11-23 09:59:16.815821: Activation! Number of activations: 33
+2020-11-23 09:59:39.627978: Activation! Number of activations: 34
+2020-11-23 10:01:00.365347: Activation! Number of activations: 35
+2020-11-23 10:04:05.923269: Activation! Number of activations: 36
+2020-11-23 10:04:08.998016: Activation! Number of activations: 37
+2020-11-23 10:09:52.604286: Activation! Number of activations: 38
+2020-11-23 10:17:29.654441: Activation! Number of activations: 40
+2020-11-23 10:17:34.234661: Activation! Number of activations: 41
+2020-11-23 10:17:59.152927: Activation! Number of activations: 42
+2020-11-23 10:19:02.874980: Activation! Number of activations: 43
+2020-11-23 10:19:08.669962: Activation! Number of activations: 44
+2020-11-23 10:23:06.294927: Activation! Number of activations: 45
+2020-11-23 10:25:10.385119: Activation! Number of activations: 46
+2020-11-23 10:31:15.509199: Activation! Number of activations: 47
+2020-11-23 10:31:53.137958: Activation! Number of activations: 48
+2020-11-23 10:31:55.287727: Activation! Number of activations: 49
+2020-11-23 10:32:44.827136: Activation! Number of activations: 50
+2020-11-23 10:36:40.443890: Activation! Number of activations: 53
+2020-11-23 10:37:12.487242: Activation! Number of activations: 54
+2020-11-23 10:41:10.999775: Activation! Number of activations: 55
+2020-11-23 10:41:21.920779: Activation! Number of activations: 56
+2020-11-23 10:41:24.422028: Activation! Number of activations: 57
+2020-11-23 10:46:23.535422: Activation! Number of activations: 59
+2020-11-23 10:46:51.246366: Activation! Number of activations: 60
+2020-11-23 10:53:01.676301: Activation! Number of activations: 61
+2020-11-23 10:58:49.380180: Activation! Number of activations: 62
+2020-11-23 10:59:43.188237: Activation! Number of activations: 64
+2020-11-23 11:01:53.016271: Activation! Number of activations: 65
+2020-11-23 11:10:36.040366: Activation! Number of activations: 66
+2020-11-23 11:12:00.910927: Activation! Number of activations: 67
+2020-11-23 11:12:12.099705: Activation! Number of activations: 68
+2020-11-23 11:16:12.046172: Activation! Number of activations: 70
+2020-11-23 11:17:31.961253: Activation! Number of activations: 71
+2020-11-23 11:19:24.951644: Activation! Number of activations: 72
+2020-11-23 11:19:40.272064: Activation! Number of activations: 73
+2020-11-23 11:20:25.246766: Activation! Number of activations: 74
+2020-11-23 11:20:31.418841: Activation! Number of activations: 75
+2020-11-23 11:20:34.193002: Activation! Number of activations: 76
+2020-11-23 11:24:41.648278: Activation! Number of activations: 77
+2020-11-23 11:24:49.737440: Activation! Number of activations: 78
+2020-11-23 11:31:25.857568: Activation! Number of activations: 79
+2020-11-23 11:34:00.471080: Activation! Number of activations: 80
+2020-11-23 11:36:05.867020: Activation! Number of activations: 81
+2020-11-23 11:40:37.564439: Activation! Number of activations: 82
+2020-11-23 11:42:48.642315: Activation! Number of activations: 83
+2020-11-23 11:42:53.052407: Activation! Number of activations: 84
+2020-11-23 11:43:05.404866: Activation! Number of activations: 85
+2020-11-23 11:45:08.735807: Activation! Number of activations: 86
+2020-11-23 11:45:16.879168: Activation! Number of activations: 87
+2020-11-23 11:46:26.893967: Activation! Number of activations: 90
+2020-11-23 11:50:14.094586: Activation! Number of activations: 91
+2020-11-23 11:53:05.847582: Activation! Number of activations: 93
+2020-11-23 11:53:09.620106: Activation! Number of activations: 94
+2020-11-23 11:55:10.117448: Activation! Number of activations: 95
+2020-11-23 11:55:13.836252: Activation! Number of activations: 96
+2020-11-23 11:55:33.720076: Activation! Number of activations: 97
+2020-11-23 11:55:48.906094: Activation! Number of activations: 98
+2020-11-23 11:56:08.995860: Activation! Number of activations: 99
+2020-11-23 11:56:23.746109: Activation! Number of activations: 100
+2020-11-23 11:56:41.179049: Activation! Number of activations: 101
+2020-11-23 11:56:48.988546: Activation! Number of activations: 102
+2020-11-23 11:56:53.615256: Activation! Number of activations: 103
+2020-11-23 11:57:08.914793: Activation! Number of activations: 105
+2020-11-23 11:57:11.723785: Activation! Number of activations: 106
+2020-11-23 11:57:46.769916: Activation! Number of activations: 107
+2020-11-23 11:57:56.102950: Activation! Number of activations: 108
+2020-11-23 11:57:59.722394: Activation! Number of activations: 109
+2020-11-23 11:58:20.833742: Activation! Number of activations: 111
+2020-11-23 11:58:53.040076: Activation! Number of activations: 112
+2020-11-23 12:00:19.205269: Activation! Number of activations: 113
+2020-11-23 12:00:29.369076: Activation! Number of activations: 114
+2020-11-23 12:01:07.105989: Activation! Number of activations: 115
+2020-11-23 12:01:09.218800: Activation! Number of activations: 116
+2020-11-23 12:01:11.360004: Activation! Number of activations: 117
+2020-11-23 12:01:21.994045: Activation! Number of activations: 118
+2020-11-23 12:01:45.995066: Activation! Number of activations: 119
+2020-11-23 12:04:40.776981: Activation! Number of activations: 120
+2020-11-23 12:06:12.936222: Activation! Number of activations: 122
+2020-11-23 12:06:15.595425: Activation! Number of activations: 123
+2020-11-23 12:07:41.403238: Activation! Number of activations: 124
+2020-11-23 12:08:12.168752: Activation! Number of activations: 125
+2020-11-23 12:08:42.186463: Activation! Number of activations: 126
+2020-11-23 12:09:25.287086: Activation! Number of activations: 127
+2020-11-23 12:09:50.916027: Activation! Number of activations: 128
+2020-11-23 12:13:32.246614: Activation! Number of activations: 129
+2020-11-23 12:13:41.768056: Activation! Number of activations: 130
+2020-11-23 12:15:09.159314: Activation! Number of activations: 131
+2020-11-23 12:15:35.327055: Activation! Number of activations: 132
+2020-11-23 12:15:39.427684: Activation! Number of activations: 133
+2020-11-23 12:16:28.012758: Activation! Number of activations: 134
+2020-11-23 12:16:36.470050: Activation! Number of activations: 135
+2020-11-23 12:16:40.165432: Activation! Number of activations: 136
+2020-11-23 12:22:12.800787: Activation! Number of activations: 138
+2020-11-23 12:22:21.201163: Activation! Number of activations: 139
+2020-11-23 12:29:13.205990: Activation! Number of activations: 140
+2020-11-23 12:29:46.019033: Activation! Number of activations: 141
+2020-11-23 12:29:48.678344: Activation! Number of activations: 142
+2020-11-23 12:34:03.261642: Activation! Number of activations: 143
+2020-11-25 09:19:45.717729: Device started
+2020-11-25 09:25:00.457497: Device started
+2020-11-25 09:25:51.901044: Device started
+2020-11-25 09:26:18.915379: Device started
+2020-11-25 09:26:49.913671: Device started
+2020-11-25 09:41:48.459744: Device started
+2020-11-25 09:42:17.879709: Device started
+2020-11-25 09:42:40.569794: Device started
+2020-11-25 09:43:06.392895: Device started
+2020-11-25 09:43:14.222642: Activation! Number of activations: 1
+2020-11-25 09:43:17.502408: Activation! Number of activations: 2
+2020-11-25 09:44:33.839319: Device started
+2020-11-25 09:46:33.098516: Device started
+2020-11-25 09:46:55.485554: Device started
+2020-11-25 09:47:13.285845: Device started
+2020-11-25 09:47:40.416502: Device started
+2020-11-25 09:47:58.088720: Device started
+2020-11-25 09:52:54.934933: Device started
+2020-11-25 09:53:02.825218: Activation! Number of activations: 1
+2020-11-25 09:53:04.542707: Activation! Number of activations: 2
+2020-11-25 09:53:24.418866: Device started
+2020-11-25 09:53:27.200474: Activation! Number of activations: 1
+2020-11-25 09:53:28.364077: Activation! Number of activations: 2
+2020-11-25 09:53:29.859249: Activation! Number of activations: 3
+2020-11-25 09:53:30.935928: Activation! Number of activations: 4
+2020-11-25 09:53:32.164795: Activation! Number of activations: 5
+2020-11-25 09:53:33.447537: Activation! Number of activations: 6
+2020-11-25 09:55:08.653576: Device started
+2020-11-25 09:55:23.083234: Activation! Number of activations: 1
+2020-11-25 09:55:25.353098: Activation! Number of activations: 2
