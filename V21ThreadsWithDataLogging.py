@@ -1,11 +1,9 @@
-# SHS
-
 import pygame
 import pygame.freetype
 import cv2
 import threading
 import multiprocessing as mp
-import vlc
+
 from moviepy.editor import VideoFileClip
 import math
 import socket
@@ -32,12 +30,89 @@ import globdef
 import RPi.GPIO as GPIO
 import os
 import time
+
+#--------------------------------Data Logging----------------------------------------------------------
+import csv
+import pandas as pd
+from threading import Timer,Thread,Event
+
+filename = "dataRimephas.csv"
+
+numberOfPeople = 0
+
+seconds = 0
+minutes = 0
+hours = 0
+
+
+class TimerClass():
+
+   def __init__(self,t,hFunction):
+      self.t=t
+      self.hFunction = hFunction
+      self.thread = Timer(self.t,self.handle_function)
+
+   def handle_function(self):
+      self.hFunction()
+      self.thread = Timer(self.t,self.handle_function)
+      self.thread.start()
+
+   def start(self):
+      self.thread.start()
+
+   def cancel(self):
+      self.thread.cancel()
+      
+      
+def clearFile(filename):
+    open(filename, 'w').close()
+
+def incrementSeconds():
+    global seconds, minutes, hours
+
+    seconds += 1
+
+    if(seconds == 60):
+        minutes += 1
+        seconds = 0
+
+    if(minutes == 60):
+        hours += 1
+        minutes = 0
+
+    
+def readDataFromFile(filename):
+    with open(filename, 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            print(row)
+        file.close()
+
+
+def readDataToPDframe(filename):
+    df = pd.read_csv(filename)
+    print(df)
+
+
+def writeDataToFile(filename, disp, typeOfActivation):
+    with open(filename, 'a') as file:
+        print("Writing to File")
+        writer = csv.writer(file)
+        writer.writerow([typeOfActivation, hours, minutes, seconds, disp.numberOfActivations, numberOfPeople])
+        file.close()
+
+# Call this function to clear file
+#clearFile()
+#---------------------------------------------------------------------------------------------------
+
+
 #import picamera
+"""
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 
 from irSensorClass import irSensor
-
+"""
 
 ##########  Settings  ##########
 wizardOfOz = False
@@ -54,10 +129,10 @@ else:
     moveScreen = 0
 WHITE = (255,255,255)
 BACKGROUND = WHITE
-LANGUAGE = "en-US" # en-US or da-DK
+LANGUAGE = "da-DK" # en-US or da-DK
 isOnline = True
 eyeDesign = "normal" # normal or monster
-
+"""
 # Software SPI configuration:
 CLK  = 18
 MISO = 23
@@ -70,7 +145,7 @@ sensorThreshold = 1.5
 ADC = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 irSensors = irSensor(ADC, numSensors, sensorThreshold)
 thresholdValue = irSensors.initSensors()
-
+"""
 
 ########## Load images ##########
 normalL = pygame.image.load("images/png/normalL.png")
@@ -412,7 +487,7 @@ def interactionQuestion(question):
         elif question == 0 and disp.numberOfActivations != lastNumberOfActivations:
             #pygame.event.post(happyevent)
             if novideo:
-                speech_out(10)
+                speech_out(11)
             else: wait(2000)
             break
         #elif i < 1:
@@ -420,9 +495,9 @@ def interactionQuestion(question):
         #    speech_out(question+4)
         #    show_buttons = True
         #    i += 1
-        #elif i < 1:
-        #    show_hand_detect = True
-        #    i += 1
+        elif i < 1:
+            show_hand_detect = True
+            i += 1
         elif question == 1:
             speech_out(6)
             break
@@ -600,6 +675,24 @@ if __name__ == '__main__':
     #    subprocess.run(["xinput", "map-to-output", "8", "HDMI-1"])
     if isOnline and not checkInternet():
         isOnline = False
+    
+    
+    # Call this function to clear file and reset data for new test
+    #clearFile(filename)
+    
+    # Seconds timer for data logging
+    timer = TimerClass(1, incrementSeconds)
+    timer.start()
+    
+    oldActivations = 0
+    oldPeople = 0
+    activatedPIR = False
+    #-------------------------------------Data logging -------------------------------
+    with open(filename, 'a') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Type", "Hours", "Minutes", "Seconds", "Total Activations", "Total People"])
+        file.close()
+
     
     # Initialize dispenser
     disp = dispenser.Dispenser()
@@ -845,7 +938,7 @@ if __name__ == '__main__':
                 
         elif receiver.poll():
             trackedList, peopleCount, frame = receiver.recv()
-            trackedList = {k:v for (k,v) in trackedList.items() if v[4]>1}
+            trackedList = {k:v for (k,v) in trackedList.items() if v[4]>5}
             
             if runInteraction:
                 keys = trackedList.keys() # IDs of currently tracked people
@@ -938,7 +1031,7 @@ if __name__ == '__main__':
                         trackID = max(trackedList.items(), key = lambda i : i[1][2])[0]
 
                 (x, y, w, h, n, u, c) = trackedList.get(trackID)
-                #calculateAngles(x, y, w, h)
+                calculateAngles(x, y, w, h)
                 
                 if peopleCount > oldNumberOfPeople:
                     newPeople = peopleCount - oldNumberOfPeople
@@ -1042,7 +1135,6 @@ if __name__ == '__main__':
             scalescreen = pygame.transform.smoothscale(screen, (top_screen_width,top_screen_height))
             finalSurface.fill(BACKGROUND)
             finalSurface.blit(scalescreen, (0,0))
-            """
             if show_hand_detect:
                 finalSurface.blit(handDetectL, (0,largeSize[1]-600+150))
                 finalSurface.blit(handDetectR, (500,largeSize[1]-600+150))
@@ -1052,9 +1144,7 @@ if __name__ == '__main__':
                 #finalSurface.blit(ja_text, (offset+50+40, top_screen_height+150+10))
                 finalSurface.blit(nej_text, (100-50+50, top_screen_height+590+10))
                 finalSurface.blit(ja_text, (offset+50+40, top_screen_height+590+10))
-            elif
-            """
-            if textList:
+            elif textList:
                 if showFaceMask:
                     text_offset = 100
                     for txt in textList:
@@ -1079,7 +1169,27 @@ if __name__ == '__main__':
         else: finalSurface.blit(screen, (0,0))
         pygame.display.flip()
         
-        #disp.readPIR()
+        
+        #--------------------------Data Logging------------------------------------
+        
+        if(oldPeople != disp.numberOfPeople):
+            writeDataToFile(filename, disp, "Person")
+        
+        if(oldActivations != disp.numberOfActivations):
+            writeDataToFile(filename, disp, "Activation")
+        
+        oldPeople = disp.numberOfPeople
+        oldActivations = disp.numberOfActivations
+        
+        
+    # Cancel the timer for data logging
+    timer.cancel()
+    
+    #Output data from logging in terminal - also stored in csv file in directory
+    readDataToPDframe(filename)
+    
+    
+    
     logfile.close()
     interrupted = True
     threadevent.set()
@@ -1095,6 +1205,10 @@ if __name__ == '__main__':
     pygame.quit()
     GPIO.cleanup()
     print("Cleaned up")
+    
+     #Output data from logging in terminal - also stored in csv file in directory
+    #readDataToPDframe(filename)
+    
     exit(0)
 
 

@@ -18,7 +18,7 @@ cv2.namedWindow('imageBR', cv2.WINDOW_AUTOSIZE)
 """
 term = False
 
-def frameCutout(frame, vOff, hOff, first, faceAtBoundary=False):
+def frameCutout(frame, hOff, vOff, first, faceAtBoundary=False):
     frameRGB = frame[vOff:320+vOff, hOff:320+hOff]
     framePIL = Image.fromarray(frameRGB)
     faces = engine.detect_with_image(framePIL,
@@ -42,7 +42,7 @@ def frameCutout(frame, vOff, hOff, first, faceAtBoundary=False):
         
         x = x+hOff
         y = y+vOff
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
+        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
         #print(h/w)
         
     return frame, faceAtBoundary
@@ -51,19 +51,24 @@ start = time.time()
 fps = 0
 old = 0.
 
+startPoint1 = (320, 300)
+
+startPoint2 = (startPoint1[0]+320, startPoint1[1])
+#startPoint2 = tuple(x+320 for x in startPoint1)
+
 while not term:
     _, frame = cap.read()
     frame = cv2.rotate(frame, cv2.ROTATE_180)
     frameRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     
     faceAtBoundary = False
-    frameRGB, faceAtBoundary = frameCutout(frameRGB, 400, 400, True)
-    frameRGB, _ = frameCutout(frameRGB, 400, 720, False, faceAtBoundary)
+    frameRGB, faceAtBoundary = frameCutout(frameRGB, startPoint1[0], startPoint1[1], True)
+    frameRGB, _ = frameCutout(frameRGB, startPoint2[0], startPoint2[1], False, faceAtBoundary)
     #frameRGB = frameCutout(frameRGB, 160, 0)
     #frameRGB = frameCutout(frameRGB, 160, 320)
     
-    cv2.rectangle(frameRGB, (720, 400), (1040, 720), (0, 0, 255), 2)
-    cv2.rectangle(frameRGB, (400, 400), (720, 720), (0, 0, 255), 2)
+    cv2.rectangle(frameRGB, startPoint1, tuple(x+320 for x in startPoint1), (0, 0, 255), 2)
+    cv2.rectangle(frameRGB, startPoint2, tuple(x+320 for x in startPoint2), (0, 0, 255), 2)
     cv2.imshow("image", cv2.resize(frameRGB,(640,480)))
     """
     cv2.imshow("imageL", frameL)

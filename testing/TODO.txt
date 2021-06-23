@@ -1,0 +1,4 @@
+setup face tracking window, method of selecting
+test face tracking at entrance with different lighting
+interaction setup modular/separate function
+webserver

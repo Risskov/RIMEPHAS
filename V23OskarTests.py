@@ -1,5 +1,3 @@
-# SHS
-
 import pygame
 import pygame.freetype
 import cv2
@@ -329,7 +327,9 @@ def interaction(*items):
     else:    
         skip = False
         for item in items:
-            if item == "nudge":
+            if item == "greet":
+                speech_out(0)
+            elif item == "nudge":
                 speech_out(8+items[1])
             elif item == "30s":
                 #rand = random.randint(0,2)
@@ -361,7 +361,7 @@ def interaction(*items):
             textList = []
             if threadevent.is_set(): break
     threadevent.clear()
-    if interactionWait: state = WAITSTATE #BLINKSTATE2
+    #if interactionWait: state = WAITSTATE #BLINKSTATE2
     print("Flow ended")
     #show_buttons = False
 
@@ -487,12 +487,12 @@ def calculateAngles(x, y, w, h):
     angleA = (90 - hAngle)*math.pi/180
     a = math.sqrt(b*b + c*c - 2*b*c*math.cos(angleA))
     angleC = math.acos((a*a + b*b - c*c)/(2*a*b))
-    pupilL = int((angleC - math.pi/2) * EYE_DEPTH * ppcm)
+    pupilL = int((angleC - math.pi/2) * EYE_DEPTH * ppcm)+30
     
     b_hat = 2*b
     c_hat = math.sqrt(a*a + b_hat*b_hat - 2*a*b_hat*math.cos(angleC))
     angleA_hat = math.acos((b_hat*b_hat + c_hat*c_hat - a*a)/(2*b_hat*c_hat))
-    pupilR = int((math.pi/2 - angleA_hat) * EYE_DEPTH * ppcm)
+    pupilR = int((math.pi/2 - angleA_hat) * EYE_DEPTH * ppcm)+30
     
     # vertical
     b = 6
@@ -500,6 +500,7 @@ def calculateAngles(x, y, w, h):
     a = math.sqrt(b*b + c*c - 2*b*c*math.cos(angleA))
     angleC = math.acos((a*a + b*b - c*c)/(2*a*b))
     pupilV = int((angleC - math.pi/2) * EYE_DEPTH * ppcm)
+    pupilV = 0
     
 # Draw the pupils on the eyes
 def drawPupils():
@@ -845,12 +846,15 @@ if __name__ == '__main__':
                 
         elif receiver.poll():
             trackedList, peopleCount, frame = receiver.recv()
-            trackedList = {k:v for (k,v) in trackedList.items() if v[4]>1}
+            trackedList = {k:v for (k,v) in trackedList.items() if v[4]>0}
             
             if runInteraction:
                 keys = trackedList.keys() # IDs of currently tracked people
                 recurrents = set(keys) & set(prevKeys) # IDs of people present during last interaction and now
-                if not interactionWait and not flow.is_alive() and trackedList:        
+                if not interactionWait and not flow.is_alive() and trackedList:
+                    interactionItems.append("greet")
+                    waitTimer = 15000
+                    """
                     recurrentsVideo = set(keys) & set(videoKeys)
                     #interactionItems = []
                     
@@ -890,11 +894,13 @@ if __name__ == '__main__':
                     #threadevent.set()
                 #    pass
                 # track and decay rates important above
-                if not interactionItems and not flow.is_alive() and lastNumberOfActivations != disp.numberOfActivations:
+                """
+                elif not flow.is_alive() and lastNumberOfActivations != disp.numberOfActivations:
                     #pygame.event.post(happyevent)
                     interactionItems.append("30s")
                     prevKeys = keys
                     waitTimer = 8000
+                else: print(flow.is_alive())
 
                 if interactionItems:
                         print("Arguments: ", interactionItems)       
@@ -938,7 +944,7 @@ if __name__ == '__main__':
                         trackID = max(trackedList.items(), key = lambda i : i[1][2])[0]
 
                 (x, y, w, h, n, u, c) = trackedList.get(trackID)
-                #calculateAngles(x, y, w, h)
+                calculateAngles(x, y, w, h)
                 
                 if peopleCount > oldNumberOfPeople:
                     newPeople = peopleCount - oldNumberOfPeople
@@ -1096,5 +1102,6 @@ if __name__ == '__main__':
     GPIO.cleanup()
     print("Cleaned up")
     exit(0)
+
 
 

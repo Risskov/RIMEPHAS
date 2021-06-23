@@ -1,45 +1,45 @@
-# SHS
-
 import pygame
 import pygame.freetype
 import cv2
+import numpy as np
+import math
+import random
+import time
 import threading
 import multiprocessing as mp
-import vlc
-from moviepy.editor import VideoFileClip
-import math
+import subprocess
 import socket
 import snowboydecoder
 import speech_recognition as sr
-#from gtts import gTTS
 import re
 from pydub import AudioSegment as AS
-import numpy as np
-import random
-import subprocess
+from moviepy.editor import VideoFileClip
 
 pygame.init()
 
-import dispenser           #dispenser.py
-import stattracker         #stattracker.py
-from scrollingtext import *#scrollingtext.py
-import LEDs                #LEDs.py
-import trackeduser         #trackeduser.py
-import showimages          #showimages.py
-import facetracking as ft  #facetracking.py
+import dispenser            #dispenser.py
+import stattracker          #stattracker.py
+from scrollingtext import * #scrollingtext.py
+import LEDs                 #LEDs.py
+import trackeduser          #trackeduser.py
+import showimages           #showimages.py
+import facetracking as ft   #facetracking.py
+import sounds               #sounds.py
+from images import *        #images.py
 from wizardOfOz import *
 import globdef
 import RPi.GPIO as GPIO
-import os
-import time
-#import picamera
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
-
 from irSensorClass import irSensor
 
-
 ##########  Settings  ##########
+windowedFaceTracking = True # track faces in smaller area but higher resolution
+faceTrackFunction = ft.faceTracking if windowedFaceTracking else ft.faceTrackingWhole
+LANGUAGE = "en-US" # en-US or da-DK
+isOnline = True # is connected to internet
+eyeDesign = "normal" # normal or monster eyes
+topOption = 0 # show eyes (0) or images (1)
 wizardOfOz = False
 showScrollingImages = False
 showFaceMask = True
@@ -52,11 +52,9 @@ if largeScreen:
 else:
     screenSize = size
     moveScreen = 0
+
 WHITE = (255,255,255)
 BACKGROUND = WHITE
-LANGUAGE = "en-US" # en-US or da-DK
-isOnline = True
-eyeDesign = "normal" # normal or monster
 
 # Software SPI configuration:
 CLK  = 18
@@ -71,109 +69,8 @@ ADC = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 irSensors = irSensor(ADC, numSensors, sensorThreshold)
 thresholdValue = irSensors.initSensors()
 
-
-########## Load images ##########
-normalL = pygame.image.load("images/png/normalL.png")
-normalR = pygame.transform.flip(normalL, True, False)
-normalwhiteL = pygame.image.load("images/png/normalLwhite.png")
-normalwhiteR = pygame.transform.flip(normalwhiteL, True, False)
-
-closedL = pygame.image.load("images/png/closedL.png")
-closedR = pygame.transform.flip(closedL, True, False)
-
-happyL = pygame.image.load("images/png/happyL.png")
-happyR = pygame.transform.flip(happyL, True, False)
-
-confusedL = pygame.image.load("images/png/confusedL.png")
-confusedR = pygame.image.load("images/png/confusedR.png")
-confusedLwhite = pygame.image.load("images/png/normalAltLwhite.png")
-confusedRwhite = pygame.image.load("images/png/confusedRwhite.png")
-
-onlineicon = pygame.image.load("images/png/online.png")
-offlineicon = pygame.image.load("images/png/offline.png")
-
-danishbutton = pygame.image.load("images/bg/danishicon.png")
-englishbutton = pygame.image.load("images/bg/englishicon.png")
-danishbutton = pygame.transform.scale(danishbutton, (120,90))
-englishbutton = pygame.transform.scale(englishbutton, (120,90))
-
-nobutton = pygame.image.load("images/png/nobutton.png")
-yesbutton = pygame.image.load("images/png/yesbutton.png")
-
-pupil = pygame.image.load("images/png/pupil.png")
-
-colorselector = pygame.image.load("images/bg/ColorPicker.bmp")
-colorselector = pygame.transform.flip(colorselector, False, True)
-coloricon = pygame.transform.scale(colorselector, (120, 90))
-colorselector = pygame.transform.scale(colorselector, (700, 350))
-
-menuicon = pygame.image.load("images/png/menuicon.png")
-graphicon = pygame.image.load("images/png/graphicon.png")
-graphicon = pygame.transform.scale(graphicon, (90,90))
-
-monster = pygame.image.load("images/png/monstereyes.png")
-monsterpupil = pygame.image.load("images/png/monsterpupil.png")
-monsterpupilsmall = pygame.image.load("images/png/monsterpupilsmall.png")
-monsterblinkL = pygame.image.load("images/png/monsterclosedL.png")
-monsterblinkM = pygame.image.load("images/png/monsterclosedM.png")
-monsterblinkR = pygame.image.load("images/png/monsterclosedR.png")
-
-benderL = pygame.image.load("images/bg/benderL.png")
-benderR = pygame.transform.flip(benderL, True, False)
-benderpupil = pygame.image.load("images/bg/benderpupil.png")
-
-handDetectL = pygame.image.load("images/png/left_hand_detect2.png")
-scalex = int(handDetectL.get_width()/1.5)
-scaley = int(handDetectL.get_height()/1.5)
-handDetectL = pygame.transform.scale(handDetectL, (scalex,scaley))
-handDetectR = pygame.transform.flip(handDetectL, True, False)
-#print("hm: ", handDetectL.get_size())
-
-#facemask = pygame.image.load("images/png/mundbind800alt.png")
-facemask = pygame.image.load("images/png/mundbind1100.png")
-#facemask = pygame.transform.scale(facemask, (800,700))
-
 ########## Load sounds ##########
-Hi_sanitizer = "sounds/Hi_sanitizer.mp3"
-Sorry_sanitizer = "sounds/Sorry_sanitizer.mp3"
-Great_dispenser = "sounds/Great_dispenser.mp3"
-Nice_day = "sounds/Nice_day.mp3"
-Sorry_bye = "sounds/Sorry_bye.mp3"
-Sorry_video = "sounds/Sorry_video.mp3"
-Video = "sounds/Video.mp3"
-
-Hej_sprit = "sounds/Hej_sprit.mp3"
-Undskyld_sprit = "sounds/Undskyld_sprit.mp3"
-Under_automaten = "sounds/Under_automaten.mp3"
-God_dag = "sounds/God_dag.mp3"
-Undskyld_farvel = "sounds/Undskyld_farvel.mp3"
-Undskyld_video = "sounds/Undskyld_video.mp3"
-Video_da = "sounds/Video_da.mp3"
-Okay_video = "sounds/Okay_video.mp3"
-countdown_da = "sounds/countdown_da.mp3"
-
-thirtysec = "sounds/30sec.mp3"
-joke1_1 = "sounds/joke1_1.mp3"
-joke1_2 = "sounds/joke1_2.mp3"
-joke2_1 = "sounds/joke2_1.mp3"
-joke2_2 = "sounds/joke2_2.mp3"
-joke3_1 = "sounds/joke3_1.mp3"
-joke3_2 = "sounds/joke3_2.mp3"
-nudge1 = "sounds/nudge1.mp3"
-nudge2 = "sounds/nudge2.mp3"
-nudge1da = "sounds/nudge1da.mp3"
-Okay_video_da = "sounds/Okay_video_da.mp3"
-thirtysecda = "sounds/30sec_da.mp3"
-caring = "sounds/thanks_for_caring.mp3"
-often = "sounds/sanitize_often.mp3"
-
-
-# List of English voice lines
-sounds_EN = [Hi_sanitizer, Video, Great_dispenser, Okay_video, Sorry_sanitizer, Sorry_video,  Nice_day, Sorry_bye,
-          often, nudge1, thirtysec, caring, joke1_1, joke1_2, joke2_1, joke2_2, joke3_1, joke3_2]
-# List of Danish voice lines
-sounds_DA = [Hej_sprit, Video_da, Under_automaten, Okay_video_da, Undskyld_sprit, Undskyld_video, God_dag, Undskyld_farvel,
-          nudge1da, nudge1da, thirtysecda, countdown_da, caring]
+sounds_EN, sounds_DA = sounds.loadSounds()
 
 ########## Functions ##########
 # Check if connected to internet
@@ -273,7 +170,7 @@ def speech_in(cmd1, cmd2):
         cmdList1 = ["ja", "gerne", "jo", "ok"]
         cmdList2 = ["nej", "ellers tak"]
     elif cmd1 == "yes" and LANGUAGE == "en-US":
-        cmdList1 = [cmd1, "please", "ok", "alright", "why not", "yeah", "i guess"]
+        cmdList1 = [cmd1, "please", "ok", "alright", "why not", "yeah", "i guess", "sure"]
         cmdList2 = [cmd2, "don't"]
     else:
         cmdList1 = [cmd1]
@@ -299,27 +196,13 @@ def speech_out(index):
         sounds = sounds_EN
     pygame.mixer.init()
     pygame.mixer.music.load(sounds[index])
-    """
-    sound = AS.from_mp3(sounds[index])
-    raw_data = sound.raw_data
-    sample_rate = sound.frame_rate * 2.3
-    amp_data = np.frombuffer(raw_data, dtype=np.int16)
-    amp_data = np.absolute(amp_data)
-    """
     pygame.mixer.music.play()
     if largeScreen:
         global textList
         textList = createTextSurface(finalSurface, index, top_screen_height, top_screen_width, wizardOfOz, LANGUAGE)
     while pygame.mixer.music.get_busy():
         pass
-        #if threadevent.is_set():
-        #pygame.mixer.quit()
-        #break
-    """
-        leds.change_brightness_when_speaking(sample_rate, amp_data)
-    leds.dots.fill(leds.NOCOLOR)
-    leds.indexLED = 5
-    """
+
 ########## Main interaction function going through interaction items to be executed ##########
 def interaction(*items):
     global textList, show_buttons, state, interactionWait
@@ -332,8 +215,6 @@ def interaction(*items):
             if item == "nudge":
                 speech_out(8+items[1])
             elif item == "30s":
-                #rand = random.randint(0,2)
-                #speech_out(10+rand)
                 rand = 1
                 if rand: speech_out(10)
                 else: speech_out(11)
@@ -343,7 +224,7 @@ def interaction(*items):
                 speech_out(12+items[1])
             elif item == "sanitizer":
                 if len(items)<=1:
-                    skip = interactionQuestion(3)
+                    skip = interactionQuestion(0)
                 else: skip = interactionQuestion(0)
             elif item == "video" and not skip:
                 interactionQuestion(1)
@@ -376,12 +257,20 @@ def interactionQuestion(question):
     lastNumberOfActivations = disp.numberOfActivations
     speech_out(question)
     i = 0
+    skipit = 0
     
     while not threadevent.is_set():
         listenthread = threading.Thread(target=speech_in, args=("yes","no"))
         listenthread.start()
         while listenthread.is_alive():
             if yes_detected or no_detected: break
+            if disp.numberOfActivations != lastNumberOfActivations:
+                speech_out(10)
+                skipit = 1
+                break
+        if skipit:
+            skipit = 0
+            break
         #speech_in("yes", "no")
         if yes_detected:
             pygame.event.post(happyevent)
@@ -410,19 +299,11 @@ def interactionQuestion(question):
             skip = True
             break
         elif question == 0 and disp.numberOfActivations != lastNumberOfActivations:
-            #pygame.event.post(happyevent)
             if novideo:
                 speech_out(10)
             else: wait(2000)
             break
-        #elif i < 1:
-        #    pygame.event.post(questionevent)      # dont repeat if sound level low?
-        #    speech_out(question+4)
-        #    show_buttons = True
-        #    i += 1
-        #elif i < 1:
-        #    show_hand_detect = True
-        #    i += 1
+
         elif question == 1:
             speech_out(6)
             break
@@ -436,35 +317,14 @@ def interactionQuestion(question):
     return skip
 
 def playVideo():
-    """
-    print(pygame.display.get_wm_info())
-    movie = "videos/normalvideo.mp4"
-    vlcInstance = vlc.Instance()
-    media = vlcInstance.media_new(movie)
-    player = vlcInstance.media_player_new()
-    #player.set_hwnd(pygame.display.get_wm_info()['window'])
-    winID = pygame.display.get_wm_info()['window']
-    player.set_xwindow(winID)
-    player.set_position(0.7)
-    player.set_media(media)
-    pygame.mixer.quit()
-    player.play()
-    return player
-    
-    while player.get_state() != vlc.State.Ended:
-        pass
-    player.stop()
-    
-    """
     clip = VideoFileClip(f'videos/{eyeDesign}video.mp4')#, target_resolution=(480,800))
     clip = clip.volumex(0.05)
     clip.preview(fullscreen = True)
     
-res0 = (320,320)
-res1 = (320,240)
-res2 = (640,480)
-res3 = (1280,960)
-res = res2
+
+res1 = (640,480)
+res2 = (1280,960)
+res = res2 if windowedFaceTracking else res1
 
 # Calculating the gaze angles to detected face
 def calculateAngles(x, y, w, h):
@@ -481,7 +341,7 @@ def calculateAngles(x, y, w, h):
     c = -0.26*w+103
     if c < 30: c = 30
     
-    global pupilL, pupilR, pupilV
+    global pupilL, pupilR, pupilV, topOption
     # horizontal
     b = 4
     angleA = (90 - hAngle)*math.pi/180
@@ -500,6 +360,8 @@ def calculateAngles(x, y, w, h):
     a = math.sqrt(b*b + c*c - 2*b*c*math.cos(angleA))
     angleC = math.acos((a*a + b*b - c*c)/(2*a*b))
     pupilV = int((angleC - math.pi/2) * EYE_DEPTH * ppcm)
+    if topOption == 2:
+        pupilV = -60
     
 # Draw the pupils on the eyes
 def drawPupils():
@@ -518,6 +380,11 @@ def drawMonsterPupils():
     screen.blit(monsterpupil, pupilposL)
     screen.blit(monsterpupil, pupilposR)
     screen.blit(monsterpupilsmall, pupilposM)
+
+def logging(string):
+    with open("testing/activation_count.txt", "a+") as logfile:
+        timestamp = dt.datetime.now()
+        logfile.write(f"{timestamp}: {string}\n")
 
 ########## Set up face detection globals ##########
 pupilL = 0
@@ -552,6 +419,7 @@ INTERACTIONEVENT = pygame.USEREVENT + 6
 GAZEEVENT = pygame.USEREVENT + 7
 MONSTERBLINKEVENT = pygame.USEREVENT + 8
 PHOTOEVENT = pygame.USEREVENT + 9
+LOOKEVENT = pygame.USEREVENT + 10
 happyevent = pygame.event.Event(HAPPYSTARTEVENT)
 questionevent = pygame.event.Event(QUESTIONEVENT)
 
@@ -582,17 +450,15 @@ if __name__ == '__main__':
     if not wizardOfOz:
         receiver, sender = mp.Pipe(True)
         mp.set_start_method('spawn',force=True)
-        tracking_proc = mp.Process(target=ft.faceTracking, args=(sender,))
+        tracking_proc = mp.Process(target=faceTrackFunction, args=(sender,))
         tracking_proc.start()
     else:
         logfile = open("testing/testlog.txt","a+")
         timestamp = dt.datetime.now()
         logfile.write(f"{timestamp}: Device started\n")
         sh = ft.Snapshot()
-        
-    logfile = open("testing/abenalog.txt","a+")
-    timestamp = dt.datetime.now()
-    logfile.write(f"{timestamp}: Device started\n")
+    
+    logging("Device started")
     
     if not largeScreen:
         subprocess.run(["xinput", "map-to-output", "8", "DSI-1"])
@@ -637,13 +503,17 @@ if __name__ == '__main__':
     if largeScreen:
         ## Timer bubbles settings ##
         #Show photo of person who used dispenser
-        showPhoto = False
+        showPhoto = False 
         photoTimer = 0
         BubbleUpdate = 5 #Hz of trackeduser bubble update
         bubbles = []   
         ## Set up infographic images ##
         showimages.imagesInit("images/info/")
         hScale = 1.2
+        movePupilLeft = True
+        if topOption == 2:
+            pygame.time.set_timer(LOOKEVENT, 10000, True)
+            pupilV = -60
     else:
         hScale = 1.0
     # Set up screen and misc
@@ -652,9 +522,6 @@ if __name__ == '__main__':
     screen = pygame.Surface(size) #Initialize screen
     finalSurface = pygame.display.set_mode(screenSize)#, pygame.NOFRAME) #Final screen because large screen
     pygame.display.toggle_fullscreen()
-    
-    #top_screen_height = int(largeSize[0]*.7)
-    #hScale = 1.2
     top_screen_height = int(size[1]*hScale)
     top_screen_width = largeSize[0]
     
@@ -662,11 +529,6 @@ if __name__ == '__main__':
     myfont = pygame.freetype.SysFont(pygame.freetype.get_default_font(), 20)
     bubblefont = pygame.freetype.SysFont(pygame.freetype.get_default_font(), 30)
     bigfont = pygame.freetype.SysFont(pygame.freetype.get_default_font(), 60)
-    #handsfont = pygame.freetype.SysFont(
-    #header_font = pygame.freetype.SysFont(pygame.freetype.get_default_font(), 50)
-    #scroll_text = "This is an example of scrolling text moving over the screen"
-    #scroll_object = ScrollText(finalSurface, scroll_text, top_screen_height+400, (0,0,255))
-    #text_surface, _ = header_font.render("Welcome to Abena", (0,0,0))
     
     yes_rect = pygame.Rect(100-50, top_screen_height+590, 170, 70)
     no_rect = pygame.Rect(offset+50, top_screen_height+590, 170, 70)
@@ -705,6 +567,22 @@ if __name__ == '__main__':
                     print("Number of people: ", peopleAmount)
                 elif event.key == pygame.K_v:
                     state = VIDEOSTATE
+                elif event.key == pygame.K_e:
+                    topOption = (topOption + 1) % 3
+                    if topOption == 0:
+                        pygame.time.set_timer(LOOKEVENT, 0, True)
+                        pupilL = 0
+                        pupilR = 0
+                        pupilV = 0
+                        showFaceMask = True
+                    elif topOption == 1:
+                        showFaceMask = False
+                    elif topOption == 2:
+                        pupilL = 0
+                        pupilR = 0
+                        pupilV = -60
+                        showFaceMask = True
+                        pygame.time.set_timer(LOOKEVENT, 5000, True)
                 elif wizardOfOz:
                     if event.key == pygame.K_w:
                         textList = []
@@ -801,7 +679,13 @@ if __name__ == '__main__':
                     state = CONFUSEDSTATE
             if event.type == INTERACTIONEVENT:
                 interactionWait = False
-                if state == WAITSTATE: state = NORMALSTATE
+                if state == WAITSTATE:
+                    state = NORMALSTATE
+                    pupilL = 0
+                    pupilR = 0
+                    pupilV = 0
+                    if topOption == 2:
+                        pupilV = -60
                 print("Interaction timer reset")
             elif event.type == GAZEEVENT:
                 gazeAtClosest = not gazeAtClosest
@@ -814,6 +698,19 @@ if __name__ == '__main__':
             elif event.type == PHOTOEVENT:
                 if bubbles:
                     trackeduser.updateAll(bubbles)
+            elif event.type == LOOKEVENT:
+                if movePupilLeft:
+                    pupilL -= 5
+                    pupilR -= 5
+                else:
+                    pupilL += 5
+                    pupilR += 5
+                if pupilL > 40 or pupilL < -50:
+                    movePupilLeft = not movePupilLeft
+                    pygame.time.set_timer(LOOKEVENT, 8000, True)
+                else:
+                    pygame.time.set_timer(LOOKEVENT, 10, True)
+                    
                 
         ########## Interaction ##########
         
@@ -825,9 +722,7 @@ if __name__ == '__main__':
         waitTimer = 0
         
         if disp.numberOfActivations != lastNumberOfActivations:
-            timestamp = dt.datetime.now()
-            logfile.write(f"{timestamp}: Activation! Number of activations: {disp.numberOfActivations}\n")
-            #lastNumberOfActivations = disp.numberOfActivations
+            logging(f"Activation! Number of activations: {disp.numberOfActivations}")
         
         # If in Wizard of Oz test mode
         if wizardOfOz:
@@ -852,7 +747,6 @@ if __name__ == '__main__':
                 recurrents = set(keys) & set(prevKeys) # IDs of people present during last interaction and now
                 if not interactionWait and not flow.is_alive() and trackedList:        
                     recurrentsVideo = set(keys) & set(videoKeys)
-                    #interactionItems = []
                     
                     # Scenarios
                     if frequency >= frequentUse:           # Scenario 1
@@ -872,7 +766,9 @@ if __name__ == '__main__':
                             #    interactionItems.append("nudge")
                             #    interactionItems.append(0)
                             if interactionIndex == 0:      # 1
-                                interactionItems.append("novideo")
+                                #interactionItems.append("novideo")
+                                interactionItems.append("sanitizer")
+                                interactionItems.append("video")
                                 if not recurrentsVideo or len(keys - recurrentsVideo) >= 2:
                                     #interactionItems.append("video")
                                     videoKeys = keys
@@ -901,58 +797,56 @@ if __name__ == '__main__':
                         flow = threading.Thread(target=interaction, args=interactionItems)
                         flow.start()
                         interactionItems = []
-                        #receiver.send((False, False))
-                #elif not flow.is_alive():
-                #    receiver.send((False, True))
+
             if waitTimer > 0:
                 interactionWait = True
                 pygame.time.set_timer(INTERACTIONEVENT, waitTimer, True)
             
             # Gaze calculation and control
             if trackedList:
+                closestPerson = max(trackedList.items(), key = lambda i : i[1][2])[0]
                 if largeScreen and lastNumberOfActivations != disp.numberOfActivations:
                     pygame.event.post(happyevent)
-                    userID = max(trackedList.items(), key = lambda i : i[1][2])[0]
-                    (x, y, w, h, n, u, c) = trackedList.get(userID)
+                    (x, y, w, h, n, u, c) = trackedList.get(closestPerson)
                     frame = frame[y:(y+h), x-30:(x+w+30)]
                     bubbles.append(trackeduser.TrackedUser(finalSurface, int(100), int(top_screen_height+60), BubbleUpdate, frame)) # Adds face to bubbles list
                     pygame.time.set_timer(PHOTOEVENT, int(1000/BubbleUpdate))
-                    #lastNumberOfActivations = disp.numberOfActivations
-                    #BOTTOMBACKGROUND = (255,0,0)
+
                 if gazeAtClosest:
                     if altTrackID == 0: # Determine ID of closest person
-                        trackID = max(trackedList.items(), key = lambda i : i[1][2])[0]
+                        trackID = closestPerson
                         altTrackID = trackID
                     elif trackID not in trackedList: # If we lose track of ID; look at the new closest
-                        trackID = max(trackedList.items(), key = lambda i : i[1][2])[0]
+                        trackID = closestPerson
                 else:
                     if altTrackID == 0: # Determine ID of random person
                         peopleList = list(trackedList.keys())
                         if len(peopleList) > 1: # Remove the ID of closest person, then randomly choose ID
-                            maxID = max(trackedList.items(), key = lambda i : i[1][2])[0]
+                            maxID = closestPerson
                             peopleList.remove(maxID)
                         altTrackID = random.choice(peopleList)
                     if altTrackID in trackedList:
                         trackID = altTrackID
                     else: # If we lose track of ID; look at closest
-                        trackID = max(trackedList.items(), key = lambda i : i[1][2])[0]
+                        trackID = closestPerson
 
                 (x, y, w, h, n, u, c) = trackedList.get(trackID)
-                #calculateAngles(x, y, w, h)
+                if topOption == 0:
+                    calculateAngles(x, y, w, h)
                 
                 if peopleCount > oldNumberOfPeople:
                     newPeople = peopleCount - oldNumberOfPeople
                     numberOfPeople += newPeople
                     oldNumberOfPeople = peopleCount
             
-            else:
+            else: # if no person in frame during activation, add bubble without photo
                 if largeScreen and lastNumberOfActivations != disp.numberOfActivations:
                     pygame.event.post(happyevent)
                     bubbles.append(trackeduser.TrackedUser(finalSurface, int(100), int(top_screen_height+60), BubbleUpdate)) # Adds face to bubbles list
                     pygame.time.set_timer(PHOTOEVENT, int(1000/BubbleUpdate))
                     
         lastNumberOfActivations = disp.numberOfActivations
-        st.update_plot(disp.numberOfActivations, numberOfPeople)
+        #st.update_plot(disp.numberOfActivations, numberOfPeople)
         """
         irSensors.detectHands(ADC)
         hands = irSensors.getHandList()
@@ -963,7 +857,7 @@ if __name__ == '__main__':
             no_detected = True
         #disp.update()
         """
-        ########## State Machine ##########
+        ########## State Machine ########## Controls face expression and menu
         screen.fill(BACKGROUND)
         
         if state == NORMALSTATE:
@@ -1034,14 +928,15 @@ if __name__ == '__main__':
         if disp.numberOfActivations >= almostEmpty:
             disp.numberOfActivations = 0
             st.pushbullet_notification(typeOfNotification, msg)
-            print("Notification sent!")
         '''
         #screen.blit(menuicon, (5, size[1]-50))
-
-        if largeScreen: 
-            scalescreen = pygame.transform.smoothscale(screen, (top_screen_width,top_screen_height))
+        if largeScreen:
             finalSurface.fill(BACKGROUND)
-            finalSurface.blit(scalescreen, (0,0))
+            if topOption == 1:
+                showimages.showImage(finalSurface, 0, 0, 100) #Infographic images
+            else:
+                scalescreen = pygame.transform.smoothscale(screen, (top_screen_width,top_screen_height))
+                finalSurface.blit(scalescreen, (0,0))
             """
             if show_hand_detect:
                 finalSurface.blit(handDetectL, (0,largeSize[1]-600+150))
@@ -1071,16 +966,16 @@ if __name__ == '__main__':
                 finalSurface.blit(facemask, (-150, top_screen_height-50))
                 #finalSurface.blit(facemask, (0, top_screen_height-250))#50))
             
-            if not showFaceMask and bubbles:
-                text_surface, _ = bubblefont.render("Gnid hænderne indtil tiden er udløbet", (0,0,255)) #moi
-                finalSurface.blit(text_surface, (200, top_screen_height+50)) #moi
-                trackeduser.showAll(bubbles)       #Rub timer bubbles
+            #if not showFaceMask and bubbles:
+            #    text_surface, _ = bubblefont.render("Gnid hænderne indtil tiden er udløbet", (0,0,255)) #moi
+            #    finalSurface.blit(text_surface, (200, top_screen_height+50)) #moi
+            #    trackeduser.showAll(bubbles)       #Rub timer bubbles
 
         else: finalSurface.blit(screen, (0,0))
         pygame.display.flip()
-        
         #disp.readPIR()
-    logfile.close()
+    
+    # clean up threads/processes/etc
     interrupted = True
     threadevent.set()
     if not wizardOfOz:
@@ -1089,12 +984,10 @@ if __name__ == '__main__':
             (trackedList, peopleCount, frame) = receiver.recv()
         tracking_proc.terminate()
         tracking_proc.join()
-    #else:
-        #logfile.close()
+    else:
+        logfile.close()
     pygame.display.quit()
     pygame.quit()
     GPIO.cleanup()
     print("Cleaned up")
     exit(0)
-
-

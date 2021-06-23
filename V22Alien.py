@@ -1,5 +1,3 @@
-# SHS
-
 import pygame
 import pygame.freetype
 import cv2
@@ -54,7 +52,7 @@ else:
     moveScreen = 0
 WHITE = (255,255,255)
 BACKGROUND = WHITE
-LANGUAGE = "en-US" # en-US or da-DK
+LANGUAGE = "da-DK" # en-US or da-DK
 isOnline = True
 eyeDesign = "normal" # normal or monster
 
@@ -436,28 +434,9 @@ def interactionQuestion(question):
     return skip
 
 def playVideo():
-    """
-    print(pygame.display.get_wm_info())
-    movie = "videos/normalvideo.mp4"
-    vlcInstance = vlc.Instance()
-    media = vlcInstance.media_new(movie)
-    player = vlcInstance.media_player_new()
-    #player.set_hwnd(pygame.display.get_wm_info()['window'])
-    winID = pygame.display.get_wm_info()['window']
-    player.set_xwindow(winID)
-    player.set_position(0.7)
-    player.set_media(media)
-    pygame.mixer.quit()
-    player.play()
-    return player
-    
-    while player.get_state() != vlc.State.Ended:
-        pass
-    player.stop()
-    
-    """
-    clip = VideoFileClip(f'videos/{eyeDesign}video.mp4')#, target_resolution=(480,800))
+    clip = VideoFileClip(f'videos/SciFi-teens-p5.mp4')#, target_resolution = (largeSize[1],largeSize[0]))#, target_resolution=(480,800))
     clip = clip.volumex(0.05)
+    clip = clip.resize(width=800)
     clip.preview(fullscreen = True)
     
 res0 = (320,320)
@@ -594,8 +573,8 @@ if __name__ == '__main__':
     timestamp = dt.datetime.now()
     logfile.write(f"{timestamp}: Device started\n")
     
-    if not largeScreen:
-        subprocess.run(["xinput", "map-to-output", "8", "DSI-1"])
+    #if not largeScreen:
+    #   subprocess.run(["xinput", "map-to-output", "8", "DSI-1"])
     #else:
     #    subprocess.run(["xinput", "map-to-output", "8", "HDMI-1"])
     if isOnline and not checkInternet():
@@ -827,8 +806,9 @@ if __name__ == '__main__':
         if disp.numberOfActivations != lastNumberOfActivations:
             timestamp = dt.datetime.now()
             logfile.write(f"{timestamp}: Activation! Number of activations: {disp.numberOfActivations}\n")
+            state = VIDEOSTATE
             #lastNumberOfActivations = disp.numberOfActivations
-        
+        """
         # If in Wizard of Oz test mode
         if wizardOfOz:
             pupilL, pupilR, pupilV = OzMovePupils(pupilL, pupilR, pupilV)
@@ -950,9 +930,11 @@ if __name__ == '__main__':
                     pygame.event.post(happyevent)
                     bubbles.append(trackeduser.TrackedUser(finalSurface, int(100), int(top_screen_height+60), BubbleUpdate)) # Adds face to bubbles list
                     pygame.time.set_timer(PHOTOEVENT, int(1000/BubbleUpdate))
-                    
+        """            
         lastNumberOfActivations = disp.numberOfActivations
         st.update_plot(disp.numberOfActivations, numberOfPeople)
+        
+        
         """
         irSensors.detectHands(ADC)
         hands = irSensors.getHandList()
@@ -1078,7 +1060,7 @@ if __name__ == '__main__':
 
         else: finalSurface.blit(screen, (0,0))
         pygame.display.flip()
-        
+        print(state)
         #disp.readPIR()
     logfile.close()
     interrupted = True
@@ -1096,5 +1078,6 @@ if __name__ == '__main__':
     GPIO.cleanup()
     print("Cleaned up")
     exit(0)
+
 
 

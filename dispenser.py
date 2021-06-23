@@ -1,7 +1,5 @@
 import RPi.GPIO as GPIO
 
-#global variables
-#numberOfActivations = 0
 # Pins
 PIN_MOTORDETECT = 4
 PIN_IRSENOR = 20
@@ -9,9 +7,6 @@ PIN_IRSENOR = 20
 PIN_PIR = 17
 #PIN_LEFT_IR = 
 #PIN_RIGHT_IR = 
-
-
-
 
 class Dispenser:
     def __init__(self):
@@ -22,6 +17,7 @@ class Dispenser:
         self.dispenserEmptyTemp = 0
         self.activated = False
         self.numberOfActivations = 0
+        self.numberOfPeople = 0
         self.leftIR = False
         self.rightIR = False
 
@@ -36,7 +32,8 @@ class Dispenser:
     
     def readPIR(self):
         if GPIO.input(PIN_PIR):
-            print("PIR activated")
+            #print("PIR activated")
+            #self.numberOfPeople += 1
             return True
         else:
             #print("NONE")
@@ -101,8 +98,11 @@ class Dispenser:
             GPIO.output(PIN_LED, False)
         """
     def dispenser_callback(self, channel):
-        print("callback")
         self.numberOfActivations += 1
+        print("Activated")
+        
+    def pir_callback(self, channel):
+        self.numberOfPeople += 1   
         
     def right_callback(self, channel):
         self.rightIR = True
@@ -112,6 +112,7 @@ class Dispenser:
 
     def gelUpdate(self):
         GPIO.add_event_detect(PIN_MOTORDETECT, GPIO.RISING, callback=self.dispenser_callback, bouncetime=2000)
+        GPIO.add_event_detect(PIN_PIR, GPIO.RISING, callback=self.pir_callback, bouncetime=2000)
     """    
     def getRightIR:
         GPIO.add_event_detect(PIN_RIGHT_IR, GPIO.RISING, callback=self.right_callback, bouncetime=2000)
