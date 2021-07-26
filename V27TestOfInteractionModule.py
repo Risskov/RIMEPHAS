@@ -1,18 +1,13 @@
 import pygame
 import pygame.freetype
-import cv2
 import numpy as np
-import math
 import random
 import time
 import threading
 import multiprocessing as mp
 import subprocess
 import socket
-import snowboydecoder
-import speech_recognition as sr
-import re
-from pydub import AudioSegment as AS
+#from pydub import AudioSegment as AS
 from moviepy.editor import VideoFileClip
 
 pygame.init()
@@ -27,11 +22,12 @@ import facetracking as ft   #facetracking.py
 import sounds               #sounds.py
 from images import *        #images.py
 import clientSetup          #clientSetup.py
-from wizardOfOz import *
-import globdef
-import RPi.GPIO as GPIO
-import Adafruit_GPIO.SPI as SPI
-import Adafruit_MCP3008
+import speechInOut          #speechInOut.py
+import eyeAngles            #eyeAngles.py
+from wizardOfOz import *    #wizardOfOz.py
+from logFunction import logging
+#import RPi.GPIO as GPIO
+#import Adafruit_GPIO.SPI as SPI
 from irSensorClass import irSensor
 
 ##########  Settings  ##########
@@ -58,40 +54,17 @@ else:
 WHITE = (255,255,255)
 BACKGROUND = WHITE
 
-# Software SPI configuration:
-CLK  = 18
-MISO = 23
-MOSI = 24
-CS   = 25
-
-numSensors = 2
-sensorThreshold = 1.5
-
-ADC = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
-irSensors = irSensor(ADC, numSensors, sensorThreshold)
-thresholdValue = irSensors.initSensors()
-
 ########## Load sounds ##########
 sounds_EN, sounds_DA = sounds.loadSounds()
 
 ########## Functions ##########
 # Check if connected to internet
-def checkInternet(host="8.8.8.8", port=53, itimeout=3):
+def checkInternet():
     IPaddress=socket.gethostbyname(socket.gethostname())
     if IPaddress=="127.0.0.1":
         return False
     else:
         return True
-    """
-    try:
-        socket.setdefaulttimeout(itimeout)
-        socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
-        #socket.close()
-        return True
-    except socket.error as ex:
-        print(ex)
-        return False
-    """
 
 def showButtons():
     screen.blit(yesbutton, (720,0))
@@ -103,101 +76,30 @@ def wait(ms):
 def blitImages(left, right):
     screen.blit(left, (0,0))
     screen.blit(right, (400,0))
+
+def playVideo():
+    clip = VideoFileClip(f'videos/{eyeDesign}video.mp4')#, target_resolution=(480,800))
+    clip = clip.volumex(0.05)
+    clip.preview(fullscreen = True)
     
-########## Functions for Snowboy keyword detection - used when not connected to internet ##########
-def signal():
-    global interrupted
-    interrupted = True
-
-def interrupt_callback():
-    global interrupted, timeout
-    timeout += 0.03
-    if threadevent.is_set():
-        return True
-    if timeout > 5:
-        print("Timeout happened")
-        return True
-    return interrupted
-
-# Callback function for detected "yes"
-def detected_callback1():
-    print("callback 1")
-    signal()
-    global yes_detected
-    yes_detected = True
+# Draw the pupils on the eyes
+def drawPupils():
+    pupilposL = (centerL[0]+pupils.pupilL, centerL[1]-pupils.pupilV)
+    pupilposR = (centerR[0]+pupils.pupilR, centerR[1]-pupils.pupilV)
+    screen.blit(pupil, pupilposL)
+    screen.blit(pupil, pupilposR)
     
-# Callback function for detected "no"
-def detected_callback2():
-    print("callback 2")
-    signal()
-    global no_detected
-    no_detected = True
-
-def listen_for_two_cmds(cmd1, cmd2):
-    global interrupted, timeout
-    interrupted = False
-    timeout = 0.
-    detector = snowboydecoder.HotwordDetector(
-        [f"resources/models/{cmd1}.pmdl",f"resources/models/{cmd2}.pmdl"], sensitivity=[0.5,0.5])
-    detector.start(detected_callback=[detected_callback1, detected_callback2],
-               interrupt_check=interrupt_callback,
-               sleep_time=0.03)
-    detector.terminate()
-    print("Terminated")
-
-########## Function for Google Speech Recognition - used when connected to internet ###########
-def google_in():
-    r = sr.Recognizer()
-    r.pause_threshold = 0.5
-    with sr.Microphone() as source:
-        r.adjust_for_ambient_noise(source, duration=0.5)
-        print("Say something!")
-        try:
-            audio = r.listen(source, timeout=3, phrase_time_limit=2)
-        except sr.WaitTimeoutError:
-            return "Timeout"
-        else:
-            try:
-                out = r.recognize_google(audio, language=LANGUAGE)
-            except sr.UnknownValueError:
-                print("Google Speech Recognition could not understand audio")
-            except sr.RequestError as e:
-                print("Could not request results from Google Speech Recognition service; {0}".format(e))
-            else:
-                return out
-        return "Error"
+def drawMonsterPupils():
+    centerLmonster = (158-43, 218-50)
+    centerMmonster = (390-25, 250-27)
+    centerRmonster = (640-43, 222-50)
+    pupilposL = (centerLmonster[0]+pupils.pupilL, centerLmonster[1]-pupils.pupilV)
+    pupilposR = (centerRmonster[0]+pupils.pupilR, centerRmonster[1]-pupils.pupilV)
+    pupilposM = (centerMmonster[0]+int((pupils.pupilL+pupils.pupilR)/2), centerMmonster[1]-pupils.pupilV) 
+    screen.blit(monsterpupil, pupilposL)
+    screen.blit(monsterpupil, pupilposR)
+    screen.blit(monsterpupilsmall, pupilposM)
     
-# Search for keywords in string from Google SR
-def findWholeWord(w):
-    return re.compile(r'\b({0})\b'.format(w), flags=re.IGNORECASE).search
-
-########## Speech recognition main function ##########
-def speech_in(cmd1, cmd2):
-    global yes_detected, no_detected
-    yes_detected = False
-    no_detected = False
-    if cmd1 == "yes" and LANGUAGE == "da-DK":
-        cmdList1 = ["ja", "gerne", "jo", "ok"]
-        cmdList2 = ["nej", "ellers tak"]
-    elif cmd1 == "yes" and LANGUAGE == "en-US":
-        cmdList1 = [cmd1, "please", "ok", "alright", "why not", "yeah", "i guess", "sure"]
-        cmdList2 = [cmd2, "don't"]
-    else:
-        cmdList1 = [cmd1]
-        cmdList2 = [cmd2]
-    if not isOnline:
-        listen_for_two_cmds(cmd1, cmd2)
-    else:    
-        gin = google_in()
-        for cmd in cmdList1:
-            if findWholeWord(cmd)(gin):
-                yes_detected = True
-                return
-        for cmd in cmdList2:
-            if findWholeWord(cmd)(gin):
-                no_detected = True
-                return
-
 ########## Text-to-Speech function ##########
 def speech_out(index):
     if LANGUAGE == "da-DK":
@@ -213,198 +115,7 @@ def speech_out(index):
     while pygame.mixer.music.get_busy():
         pass
 
-########## Main interaction function going through interaction items to be executed ##########
-def interaction(*items):
-    global textList, show_buttons, state, interactionWait
-    if wizardOfOz:
-        for item in items:
-            speech_out
-    else:    
-        skip = False
-        for item in items:
-            if item == "nudge":
-                speech_out(8+items[1])
-            elif item == "30s":
-                rand = 1
-                if rand: speech_out(10)
-                else: speech_out(11)
-            elif item == "joke":
-                speech_out(11+items[1])
-                wait(2000)
-                speech_out(12+items[1])
-            elif item == "sanitizer":
-                if len(items)<=1:
-                    skip = interactionQuestion(0)
-                else: skip = interactionQuestion(0)
-            elif item == "video" and not skip:
-                interactionQuestion(1)
-            elif item == "monster":
-                global eyeDesign, state
-                speech_in(items[0], items[1])
-                if yes_detected:
-                    eyeDesign = items[0]
-                    state = NORMALSTATE
-                elif no_detected:
-                    eyeDesign = items[1]
-                    state = NORMALSTATE
-            elif item == "novideo":
-                skip = interactionQuestion(3)    
-            textList = []
-            if threadevent.is_set(): break
-    threadevent.clear()
-    if interactionWait: state = WAITSTATE #BLINKSTATE2
-    print("Flow ended")
-    #show_buttons = False
-
-########## Interaction function for two-way communication ##########
-def interactionQuestion(question):
-    if question == 3:
-        novideo = True
-        question = 0
-    else: novideo = False
-    global show_buttons, show_hand_detect
-    skip = False
-    lastNumberOfActivations = disp.numberOfActivations # reset this if multiple questions?
-    speech_out(question)
-    i = 0
-    skipit = 0
-    
-    while not threadevent.is_set():
-        listenthread = threading.Thread(target=speech_in, args=("yes","no"))
-        listenthread.start()
-        while listenthread.is_alive():
-            if yes_detected or no_detected: break
-            if disp.numberOfActivations != lastNumberOfActivations:
-                speech_out(10)
-                skipit = 1
-                break
-        if skipit:
-            skipit = 0
-            break
-        #speech_in("yes", "no")
-        if yes_detected:
-            pygame.event.post(happyevent)
-            speech_out(question+2)
-            if question == 0:
-                if novideo:
-                    iwait = 200
-                    while iwait:
-                        if disp.numberOfActivations != lastNumberOfActivations:
-                            speech_out(10)
-                            break
-                        iwait -= 1
-                        if iwait < 1:
-                            break
-                else:
-                    print("video")
-                    wait(2000)
-                break
-            else:
-                global state
-                state = VIDEOSTATE
-                wait(35000)
-                break
-        elif no_detected:
-            speech_out(6)
-            skip = True
-            break
-        elif question == 0 and disp.numberOfActivations != lastNumberOfActivations:
-            if novideo:
-                speech_out(10)
-            else: wait(2000)
-            break
-
-        elif question == 1:
-            speech_out(6)
-            break
-        else:
-            #wait(2000)
-            #speech_out(7)
-            skip = True
-            break
-    show_hand_detect = False
-    print("Interaction ended")
-    return skip
-
-def playVideo():
-    clip = VideoFileClip(f'videos/{eyeDesign}video.mp4')#, target_resolution=(480,800))
-    clip = clip.volumex(0.05)
-    clip.preview(fullscreen = True)
-    
-res1 = (640,480)
-res2 = (960,720)
-res3 = (1280,960)
-res = res2 if windowedFaceTracking else res1
-# Calculating the gaze angles to detected face
-def calculateAngles(x, y, w, h):
-    WIDTH = res[0]/2
-    HEIGHT = res[1]/2
-    EYE_DEPTH = 2
-    hFOV = 62/2
-    vFOV = 49/2
-    ppcm = WIDTH*2/15.5# * 1.5
-
-    center = (int(x+w*0.5), int(y+h*0.5))
-    hAngle = (1 - center[0]/WIDTH) * hFOV
-    vAngle = (1 - center[1]/HEIGHT) * vFOV            
-    c = -0.26*w+103
-    if c < 30: c = 30
-    
-    global pupilL, pupilR, pupilV, topOption
-    # horizontal
-    b = 4
-    angleA = (90 - hAngle)*math.pi/180
-    a = math.sqrt(b*b + c*c - 2*b*c*math.cos(angleA))
-    angleC = math.acos((a*a + b*b - c*c)/(2*a*b))
-    pupilL = int((angleC - math.pi/2) * EYE_DEPTH * ppcm)
-    
-    b_hat = 2*b
-    c_hat = math.sqrt(a*a + b_hat*b_hat - 2*a*b_hat*math.cos(angleC))
-    angleA_hat = math.acos((b_hat*b_hat + c_hat*c_hat - a*a)/(2*b_hat*c_hat))
-    pupilR = int((math.pi/2 - angleA_hat) * EYE_DEPTH * ppcm)
-    
-    # vertical
-    b = 6
-    angleA = (90 - vAngle)*math.pi/180
-    a = math.sqrt(b*b + c*c - 2*b*c*math.cos(angleA))
-    angleC = math.acos((a*a + b*b - c*c)/(2*a*b))
-    pupilV = int((angleC - math.pi/2) * EYE_DEPTH * ppcm)
-    if topOption == 2:
-        pupilV = -60
-    
-# Draw the pupils on the eyes
-def drawPupils():
-    pupilposL = (centerL[0]+pupilL, centerL[1]-pupilV)
-    pupilposR = (centerR[0]+pupilR, centerR[1]-pupilV)
-    screen.blit(pupil, pupilposL)
-    screen.blit(pupil, pupilposR)
-    
-def drawMonsterPupils():
-    centerLmonster = (158-43, 218-50)
-    centerMmonster = (390-25, 250-27)
-    centerRmonster = (640-43, 222-50)
-    pupilposL = (centerLmonster[0]+pupilL, centerLmonster[1]-pupilV)
-    pupilposR = (centerRmonster[0]+pupilR, centerRmonster[1]-pupilV)
-    pupilposM = (centerMmonster[0]+int((pupilL+pupilR)/2), centerMmonster[1]-pupilV) 
-    screen.blit(monsterpupil, pupilposL)
-    screen.blit(monsterpupil, pupilposR)
-    screen.blit(monsterpupilsmall, pupilposM)
-
-def logging(string):
-    with open("testing/activation_count.txt", "a+") as logfile:
-        timestamp = dt.datetime.now()
-        logfile.write(f"{timestamp}: {string}\n")
-
-########## Set up face detection globals ##########
-pupilL = 0
-pupilR = 0
-pupilV = 0
-
-########## Set up speech recognition globals ##########
-interrupted = False
-yes_detected = False
-no_detected = False
-timeout = 0.
+########## Set up speech recognition and interaction globals ##########
 show_hand_detect = False
 
 show_buttons = False
@@ -461,13 +172,10 @@ if __name__ == '__main__':
         mp.set_start_method('spawn',force=True)
         tracking_proc = mp.Process(target=faceTrackFunction, args=(sender,))
         tracking_proc.start()
+        logging("activation_count.txt", "Device started")
     else:
-        logfile = open("testing/testlog.txt","a+")
-        timestamp = dt.datetime.now()
-        logfile.write(f"{timestamp}: Device started\n")
+        logging("testlog.txt", "Device started") 
         sh = ft.Snapshot()
-    
-    logging("Device started")
     
     if not largeScreen:
         subprocess.run(["xinput", "map-to-output", "8", "DSI-1"])
@@ -488,6 +196,12 @@ if __name__ == '__main__':
     # Initialize LEDs
     leds = LEDs.LEDinit()
     disp.gelUpdate()
+    # Initialize IR hand sensors
+    #numSensors = 2
+    #sensorThreshold = 1.5
+    #irSensors = irSensor(numSensors, sensorThreshold)
+    #irSensors.initSensors()
+    
     pygame.time.set_timer(BLINKEVENT, 10000, True)
     monsterblinks = [monsterblinkL, monsterblinkM, monsterblinkR]
     
@@ -501,7 +215,6 @@ if __name__ == '__main__':
     videoKeys = [] #IDs of people present at last video showing
     prevKeys = [] #IDs of people present last iteration
     prevInteraction = 0 #What interaction scenario was last run
-    #interactionWait = False #Indicate if waiting between interactions
     interactionIndex = 0 #What interaction was last run if repeat interaction scenario
     lastNumberOfActivations = 0 #Activation counter last iteration
     peopleAmount = 1 #len(trackedList)
@@ -509,28 +222,29 @@ if __name__ == '__main__':
     interactionItems = [] #Interaction stages
     runInteraction = False #Turn on/off interactions (r button)
     
-    # Initialize stats variables
+    # Initialize nodes from other classes
     st = stattracker.StatTracker()
+    speechNode = speechInOut.Speech(threadevent)
+    pupils = eyeAngles.EyeAngles(windowedFaceTracking)
 
     oldNumberOfPeople = 0 #People counter last iteration
     numberOfPeople = 0 #People counter this iteration
     
     if largeScreen:
         ## Timer bubbles settings ##
-        #Show photo of person who used dispenser
-        showPhoto = False 
+        showPhoto = False #Show photo of person who used dispenser
         photoTimer = 0
         BubbleUpdate = 5 #Hz of trackeduser bubble update
-        bubbles = []   
-        ## Set up infographic images ##
-        showimages.imagesInit("images/info/")
+        bubbles = []             
         hScale = 1.2
         movePupilLeft = True
         if topOption == 2:
             pygame.time.set_timer(LOOKEVENT, 10000, True)
-            pupilV = -60
+            pupils.pupilV = -60
+        if showScrollingImages: showimages.imagesInit("images/info/") #Set up infographic images
     else:
         hScale = 1.0
+        
     # Set up screen and misc
     pygame.mouse.set_visible(False) #Hide mouse from GUI
     clock = pygame.time.Clock()
@@ -586,16 +300,16 @@ if __name__ == '__main__':
                     topOption = (topOption + 1) % 3
                     if topOption == 0:
                         pygame.time.set_timer(LOOKEVENT, 0, True)
-                        pupilL = 0
-                        pupilR = 0
-                        pupilV = 0
+                        pupils.pupilL = 0
+                        pupils.pupilR = 0
+                        pupils.pupilV = 0
                         showFaceMask = True
                     elif topOption == 1:
                         showFaceMask = False
                     elif topOption == 2:
-                        pupilL = 0
-                        pupilR = 0
-                        pupilV = -60
+                        pupils.pupilL = 0
+                        pupils.pupilR = 0
+                        pupils.pupilV = -60
                         showFaceMask = True
                         pygame.time.set_timer(LOOKEVENT, 5000, True)
                 elif wizardOfOz:
@@ -618,11 +332,11 @@ if __name__ == '__main__':
                     if event.x*screenSize[0] < nobutton.get_width() and event.y*screenSize[1] < nobutton.get_height()*hScale:
                         print("Left button pressed")
                         interrupted = True
-                        no_detected = True
+                        speechNode.no_detected = True
                     if event.x*screenSize[0] > size[0]-yesbutton.get_width() and event.y*screenSize[1] < yesbutton.get_height()*hScale:
                         print("Right button pressed")
                         interrupted = True
-                        yes_detected = True
+                        speechNode.yes_detected = True
                 if event.x*screenSize[0] < 5+menuicon.get_width() and int((size[1]-menuicon.get_height()-20)*hScale) < event.y*screenSize[1] < size[1]*hScale: 
                     if state == MENUSTATE:
                         state = NORMALSTATE
@@ -654,11 +368,7 @@ if __name__ == '__main__':
                         state = GRAPHSTATE
                 elif state == COLORSTATE:
                     BACKGROUND = screen.get_at((int(event.x*size[0]), int(size[1]*event.y)))
-            """elif event.type == pygame.FINGERMOTION and not multiGestureLock:
-                if eyeDesign == "monster": eyeDesign = "normal"
-                elif eyeDesign == "normal": eyeDesign = "monster"
-                multiGestureLock = True
-                pygame.time.set_timer(MULTIEVENT, 1000, True)"""
+
             ########## User Events ##########
             if state != MENUSTATE:
                 if event.type == BLINKEVENT and state == NORMALSTATE and eyeDesign == "normal":
@@ -696,11 +406,11 @@ if __name__ == '__main__':
                 interactionWait = False
                 if state == WAITSTATE:
                     state = NORMALSTATE
-                    pupilL = 0
-                    pupilR = 0
-                    pupilV = 0
+                    pupils.pupilL = 0
+                    pupils.pupilR = 0
+                    pupils.pupilV = 0
                     if topOption == 2:
-                        pupilV = -60
+                        pupils.pupilV = -60
                 print("Interaction timer reset")
             elif event.type == GAZEEVENT:
                 gazeAtClosest = not gazeAtClosest
@@ -715,20 +425,18 @@ if __name__ == '__main__':
                     trackeduser.updateAll(bubbles)
             elif event.type == LOOKEVENT:
                 if movePupilLeft:
-                    pupilL -= 5
-                    pupilR -= 5
+                    pupils.pupilL -= 5
+                    pupils.pupilR -= 5
                 else:
-                    pupilL += 5
-                    pupilR += 5
-                if pupilL > 40 or pupilL < -50:
+                    pupils.pupilL += 5
+                    pupils.pupilR += 5
+                if pupils.pupilL > 40 or pupils.pupilL < -50:
                     movePupilLeft = not movePupilLeft
                     pygame.time.set_timer(LOOKEVENT, 8000, True)
                 else:
                     pygame.time.set_timer(LOOKEVENT, 10, True)
-                    
-                
-        ########## Interaction ##########
-        
+                      
+        ########## Interaction ##########   
         #st.trailing_five_min_activations(disp.numberOfActivations)
         frequency = st.trailingFiveMinSum
         #could use pygame.timers to create variable length trailing activations - call function every event
@@ -738,18 +446,15 @@ if __name__ == '__main__':
         currentActivations = disp.numberOfActivations
         dispenserActivated = True if currentActivations != lastNumberOfActivations else False
         
-        if dispenserActivated:
-            logging(f"Activation! Number of activations: {currentActivations}")
+        if dispenserActivated and not wizardOfOz:
+            logging("activation_count.txt", f"Activation! Number of activations: {currentActivations}")
         
         # If in Wizard of Oz test mode
         if wizardOfOz:
-            pupilL, pupilR, pupilV = OzMovePupils(pupilL, pupilR, pupilV)
+            pupils.pupilL, pupils.pupilR, pupils.pupilV = OzMovePupils(pupils.pupilL, pupils.pupilR, pupils.pupilV)
             if dispenserActivated:
-                timestamp = dt.datetime.now()
-                logfile.write(f"{timestamp}: Activation! Number of activations: {currentActivations}\n")
-                lastNumberOfActivations = currentActivations
-                pygame.event.post(happyevent)
-                
+                logging("testlog.txt", f"Activation! Number of activations: {currentActivations}")
+                pygame.event.post(happyevent)                
                 frame, x, y, h, w = sh.take()
                 frame = frame[y:(y+h), x-30:(x+w+30)]
                 bubbles.append(trackeduser.TrackedUser(finalSurface, int(100), int(top_screen_height+60), BubbleUpdate, frame)) # Adds face to bubbles list
@@ -769,23 +474,18 @@ if __name__ == '__main__':
                     if frequency >= frequentUse:           # Scenario 1
                         waitTimer = 30000
 
-                    else:                                  # Scenario 3
+                    else:                                  # Scenario 2
                         if not recurrents:
                             interactionIndex = 0
                         else:
                             interactionIndex += 1
                         numberOfNewPeople = len(keys - recurrents)
                         if numberOfNewPeople >= 1:
-                            #if prevInteraction == 3: interactionIndex += 1
-                            #else: interactionIndex = 0
                             if interactionIndex >= 2: interactionIndex = 0
-                            #if interactionIndex == 1:        # 0
-                            #    interactionItems.append("nudge")
-                            #    interactionItems.append(0)
                             if interactionIndex == 0:      # 1
                                 #interactionItems.append("novideo")
                                 interactionItems.append("sanitizer")
-                                interactionItems.append("video")
+                                #interactionItems.append("video")
                                 if not recurrentsVideo or len(keys - recurrentsVideo) >= 2:
                                     #interactionItems.append("video")
                                     videoKeys = keys
@@ -793,17 +493,8 @@ if __name__ == '__main__':
                                     interactionItems.append("countdown")
                             prevKeys = keys
                             waitTimer = 15000
-                            #receiver.send((False, False))
-                        #else:
-                        #    interactionItems.append("educational")
-                        prevInteraction = 3
-                        #waitTimer = 30000
-                #if flow.is_alive() and not recurrents: #trackedList:
-                    #threadevent.set()
-                #    pass
-                # track and decay rates important above
+
                 if not interactionItems and not flow.is_alive() and dispenserActivated:
-                    #pygame.event.post(happyevent)
                     interactionItems.append("30s")
                     prevKeys = keys
                     waitTimer = 8000
@@ -848,7 +539,7 @@ if __name__ == '__main__':
 
                 (x, y, w, h, n, u, c) = trackedList.get(trackID)
                 if topOption == 0:
-                    calculateAngles(x, y, w, h)
+                    pupils.calculateAngles(x, y, w, h, topOption)
                 
                 if peopleCount > oldNumberOfPeople: # needs fix
                     newPeople = peopleCount - oldNumberOfPeople
@@ -932,9 +623,9 @@ if __name__ == '__main__':
             screen.blit(plot, (0,0))
         elif state == WAITSTATE:
             print("Wait state")
-            pupilL = 0
-            pupilR = 0
-            pupilV = -50
+            pupils.pupilL = 0
+            pupils.pupilR = 0
+            pupils.pupilV = -50
             blitImages(normalwhiteL, normalwhiteR)
             drawPupils()
             blitImages(normalL, normalR)
@@ -943,7 +634,6 @@ if __name__ == '__main__':
         
         ''' # Send notification to phone if dispenser almost empty
         if disp.numberOfActivations >= almostEmpty:
-            disp.numberOfActivations = 0
             st.pushbullet_notification(typeOfNotification, msg)
         '''
         #screen.blit(menuicon, (5, size[1]-50))
@@ -960,8 +650,6 @@ if __name__ == '__main__':
                 finalSurface.blit(handDetectR, (500,largeSize[1]-600+150))
                 pygame.draw.rect(finalSurface, (255,0,0), yes_rect)
                 pygame.draw.rect(finalSurface, (0,255,0), no_rect)
-                #finalSurface.blit(nej_text, (100-50+50, top_screen_height+150+10))
-                #finalSurface.blit(ja_text, (offset+50+40, top_screen_height+150+10))
                 finalSurface.blit(nej_text, (100-50+50, top_screen_height+590+10))
                 finalSurface.blit(ja_text, (offset+50+40, top_screen_height+590+10))
             elif
@@ -1011,3 +699,4 @@ if __name__ == '__main__':
     GPIO.cleanup()
     print("Cleaned up")
     exit(0)
+

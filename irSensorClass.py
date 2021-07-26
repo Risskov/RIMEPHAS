@@ -1,8 +1,16 @@
+import Adafruit_MCP3008
+
+# Software SPI configuration:
+CLK  = 18
+MISO = 23
+MOSI = 24
+CS   = 25
+
+#ADC = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 
 class irSensor():
-
-    def __init__(self, adc, numberOfSensors, sensorThreshold):
-        self.adc = adc
+    def __init__(self, numberOfSensors, sensorThreshold):
+        self.adc = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
         self.numberOfSensors=numberOfSensors
         self.sensorThreshold = sensorThreshold
         self.values = [0] * self.numberOfSensors
@@ -12,7 +20,6 @@ class irSensor():
         self.handRemoved = [0] * self.numberOfSensors
         self.handInFront = [0] * self.numberOfSensors
         self.handNotRemoved = [0] * self.numberOfSensors
-
 
     def initSensors(self):
         # Load all the first values into a list to have a default / threshold ir value for each sensor
@@ -30,7 +37,6 @@ class irSensor():
         print("ADC first value: ", adcValues[:self.numberOfSensors])
         print("ADC threshold: ", self.adcThreshold)
 
-
     def detectHands(self, adc):  
         values = [0]*self.numberOfSensors
         for i in range(self.numberOfSensors):
@@ -45,7 +51,6 @@ class irSensor():
                 self.handInFront[i] = True
                 self.handRemoved[i] = False
                 print("Hand" + str(i) + " in front")
-
 
             #print(values)
             # Print the ADC values.

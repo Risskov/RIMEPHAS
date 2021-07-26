@@ -75,7 +75,6 @@ class Dispenser:
         #ADCvalue = self.readAdc(0, PIN_CLK, PIN_MISO, PIN_MOSI, PIN_CS)
         if not self.turnOffDispenser and not self.activated and GPIO.input(PIN_MOTORDETECT):          
             print("Motor Activated!")
-            #count number of times used
             self.numberOfActivations += 1
             print("Activations: ", self.numberOfActivations)
             self.activated = True

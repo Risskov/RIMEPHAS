@@ -2,7 +2,6 @@ import pygame
 import datetime as dt
 import threading
 import random
-import globdef
 
 moveLeft = False
 moveRight = False

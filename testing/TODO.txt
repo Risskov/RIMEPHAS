@@ -1,4 +1,28 @@
-setup face tracking window, method of selecting
-test face tracking at entrance with different lighting
-interaction setup modular/separate function
-webserver
+interaction setup modular/separate function (with textList)
+disp.numberOfActivations !=
+could combine sounds.py with speechInOut.py
+interactionQuestion could be rewritten without loop
+
+make ID more reliable
+maybe decay rate of tracking too long (dependent on fps)
+(only want to count people coming from one side so long decay is fine)
+
+passed threadevent to Speech object. maybe pass to speech_in thread
+attempt hist eq on different channels (S in HSV, Cr in YCrCb)
+
+when multiple people enter, is one being swallowed by another and then found again?
+threshold for when a detected face is close enough to a face in list
+are people counted twice inside the revolving door? test med andre
+even slower decay to prevent double when overlapping
+height of detection windows
+clean up wires to make it more accessible 
+
+
+Done:
+histogram equalization to adjust for brightness (better/worse)
+possibly stack windows vertically
+track window: % of res, set 1 or 2 windows
+set up face tracking window, method of selecting
+set up server/client
+
+own files: calculateEyes, sounds, soundsInOut, logging
