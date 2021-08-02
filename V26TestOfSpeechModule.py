@@ -31,7 +31,7 @@ import RPi.GPIO as GPIO
 from irSensorClass import irSensor
 
 ##########  Settings  ##########
-logToServer = True # send usage statistics to server (set IP in client.py)
+logToServer = False # send usage statistics to server (set IP in client.py)
 windowedFaceTracking = True # track faces in smaller area(s) but higher resolution (res in facetracking and eyeAngles must match)
 faceTrackFunction = ft.faceTracking if windowedFaceTracking else ft.faceTrackingWhole
 LANGUAGE = "en-US" # en-US or da-DK

@@ -2145,4 +2145,10 @@ ID:  1323
 ID:  1324
 ID:  1325
 ID:  1326
-Unique people: 
+Unique people: pygame 2.0.0.dev6 (SDL 2.0.9, python 3.7.3)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+F :1147] HandleQueuedBulkIn transfer in failed. Not found: USB transfer error 5 [LibUsbDataInCallback]
+Traceback (most recent call last):
+  File "V26TestOfSpeechModule.py", line 360, in <module>
+    finalSurface = pygame.display.set_mode(screenSize)#, pygame.NOFRAME) #Final screen because large screen
+pygame.error: Could not initialize EGL
