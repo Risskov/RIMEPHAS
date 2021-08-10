@@ -142,7 +142,7 @@ def faceTracking(sender=False, dispObj=False, client=False, showCam=False):
     term = False
     while not term:
         _, frame = cap.read()
-        frame = cv2.rotate(frame, cv2.ROTATE_180)
+        #frame = cv2.rotate(frame, cv2.ROTATE_180)
         #frameRGB = histEqual(frame, 0)
         frameRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
@@ -275,4 +275,4 @@ if __name__ == '__main__':
     disp.init_GPIO()
     disp.gelUpdate()
     #c = Client()
-    faceTracking(dispObj=disp, client=False, showCam=True)
+    faceTracking(dispObj=disp, client=False, showCam=False)
