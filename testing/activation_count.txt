@@ -1,0 +1,52 @@
+2021-09-14 10:11:58.907833: Device started
+2021-09-14 10:12:48.476311: Device started
+2021-09-14 10:15:57.907581: Device started
+2021-09-14 10:17:21.860421: Device started
+2021-09-14 10:18:05.427693: Device started
+2021-09-14 10:29:32.171010: Device started
+2021-09-14 10:33:17.062101: Device started
+2021-09-14 10:34:19.529288: Device started
+2021-09-14 10:34:53.485801: Device started
+2021-09-14 10:35:31.038578: Device started
+2021-09-14 10:37:03.825032: Device started
+2021-09-14 10:38:38.776566: Device started
+2021-09-14 10:51:45.420561: Device started
+2021-09-14 10:57:45.997195: Device started
+2021-09-14 11:06:27.638060: Activation! Number of activations: 1
+2021-09-14 11:06:57.728076: Activation! Number of activations: 2
+2021-09-14 11:07:18.929494: Activation! Number of activations: 3
+2021-09-14 11:07:40.243981: Activation! Number of activations: 4
+2021-09-14 11:15:39.272997: Device started
+2021-09-14 11:16:49.739826: Device started
+2021-09-14 11:17:46.818437: Device started
+2021-09-14 11:40:11.163108: Device started
+2021-09-14 11:41:09.137433: Device started
+2021-09-14 11:51:01.245908: Device started
+2021-09-14 11:51:38.466111: Activation! Number of activations: 1
+2021-09-14 12:02:11.902818: Device started
+2021-09-14 12:05:02.399848: Activation! Number of activations: 1
+2021-09-21 10:23:18.093573: Device started
+2021-09-21 10:23:38.121530: Activation! Number of activations: 1
+2021-09-21 10:23:57.428853: Activation! Number of activations: 2
+2021-09-21 10:24:07.930080: Activation! Number of activations: 3
+2021-09-21 10:26:43.829170: Device started
+2021-09-21 10:27:10.305728: Activation! Number of activations: 1
+2021-09-21 10:27:17.695481: Activation! Number of activations: 2
+2021-09-21 10:27:31.242480: Activation! Number of activations: 3
+2021-09-21 14:43:10.863028: Device started
+2021-09-21 14:43:38.332228: Activation! Number of activations: 1
+2021-09-21 14:45:56.004798: Device started
+2021-09-21 14:55:04.359609: Activation! Number of activations: 1
+2021-09-22 10:05:34.221138: Device started
+2021-09-22 10:06:01.143136: Activation! Number of activations: 1
+2021-09-22 10:11:22.279632: Activation! Number of activations: 2
+2021-09-22 10:17:18.782430: Activation! Number of activations: 3
+2021-09-22 10:23:20.638958: Activation! Number of activations: 4
+2021-09-22 10:40:12.247808: Activation! Number of activations: 5
+2021-09-22 10:46:44.723771: Activation! Number of activations: 6
+2021-09-22 10:46:52.267754: Activation! Number of activations: 7
+2021-09-22 10:50:05.331886: Activation! Number of activations: 8
+2021-09-22 10:50:31.293131: Activation! Number of activations: 9
+2021-10-05 09:00:45.759319: Device started
+2021-10-05 09:01:54.263168: Device started
+2021-10-05 09:03:04.640753: Switched to mode: 1

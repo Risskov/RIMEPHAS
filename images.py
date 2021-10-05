@@ -56,3 +56,5 @@ handDetectL = pygame.transform.scale(handDetectL, (scalex,scaley))
 handDetectR = pygame.transform.flip(handDetectL, True, False)
 
 facemask = pygame.image.load("images/png/mundbind1100.png")
+sdu_tmp = pygame.image.load("images/sdu_logo.png")
+sdu_logo = pygame.transform.scale(sdu_tmp, (int(sdu_tmp.get_width()/1.5),int(sdu_tmp.get_height()/1.5)))
