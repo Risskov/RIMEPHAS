@@ -338,6 +338,8 @@ if __name__ == '__main__':
     interactionItems = [] #Interaction stages
     runInteraction = False #Turn on/off interactions (r button)
 
+    personSeen = False
+
     # Initialize nodes from other classes
     st = stattracker.StatTracker()
     speechNode = speechInOut.Speech(threadevent)
@@ -547,14 +549,14 @@ if __name__ == '__main__':
                     pygame.time.set_timer(NORMALEVENT, 3000, True)
                     state = CONFUSEDSTATE
                 elif event.type == MODESWITCHEVENT:
-                    if not flow.is_alive():
+                    if not flow.is_alive() and not personSeen:
                         testMode = (testMode + 1) % 5
                         if testMode == 0: testMode = 1
                         print("Test mode: ", testMode)
                         logging("activation_count.txt", f"Switched to mode: {testMode}")
                         pygame.time.set_timer(MODESWITCHEVENT, msBetweenModes, True)
                     else:
-                        pygame.time.set_timer(MODESWITCHEVENT, 20000, True)
+                        pygame.time.set_timer(MODESWITCHEVENT, 2000, True)
 
             if event.type == INTERACTIONEVENT:
                 interactionWait = False
@@ -617,6 +619,11 @@ if __name__ == '__main__':
         elif receiver.poll():
             trackedList, peopleCount, frame = receiver.recv()
             trackedList = {k:v for (k,v) in trackedList.items() if v[4]>3}
+
+            if trackedList:
+                personSeen = True
+            else:
+                personSeen = False
 
             if runInteraction and (testMode != 1 and testMode != 3): # if the dispenser should initiate interactions
                 keys = trackedList.keys() # IDs of currently tracked people

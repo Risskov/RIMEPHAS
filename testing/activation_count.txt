@@ -50,3 +50,21 @@
 2021-10-05 09:00:45.759319: Device started
 2021-10-05 09:01:54.263168: Device started
 2021-10-05 09:03:04.640753: Switched to mode: 1
+2021-10-05 09:20:21.503059: Device started
+2021-10-05 09:21:03.916179: Device started
+2021-10-05 09:21:25.660178: Activation! Number of activations: 1
+2021-10-05 09:24:45.823884: Device started
+2021-10-05 09:25:06.721487: Activation! Number of activations: 1
+2021-10-05 09:33:04.999605: Device started
+2021-10-05 09:37:05.547598: Device started
+2021-10-05 09:39:49.056501: Activation! Number of activations: 1
+2021-10-05 09:41:02.707032: Device started
+2021-10-05 09:41:23.125224: Switched to mode: 2
+2021-10-05 09:42:10.461342: Switched to mode: 3
+2021-10-05 09:43:13.245063: Device started
+2021-10-05 09:44:20.777396: Switched to mode: 2
+2021-10-05 09:44:30.827929: Switched to mode: 3
+2021-10-05 09:44:40.932122: Switched to mode: 4
+2021-10-05 09:44:51.071282: Switched to mode: 1
+2021-10-05 09:45:01.080481: Switched to mode: 2
+2021-10-05 09:45:11.146738: Switched to mode: 3
